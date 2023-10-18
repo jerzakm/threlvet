@@ -3,7 +3,7 @@
 
   export let title: string;
   export let outputStore: ReturnType<typeof generateOutput> | null = null;
-  export let key = "";
+  export let key = "color";
   export let destroy: null | (() => void) = null;
 </script>
 
@@ -16,20 +16,6 @@
   </div>
   <slot />
 </div>
-{#if outputStore && key}
-  <div class="output-anchors">
-    <Anchor
-      id={key}
-      connections={[["output", key]]}
-      let:linked
-      let:connecting
-      let:hovering
-      {outputStore}
-      output>
-      <!-- <CustomAnchor {hovering} {connecting} {linked} /> -->
-    </Anchor>
-  </div>
-{/if}
 
 <style>
   .node {

@@ -31,14 +31,16 @@
 </script>
 
 <Node useDefaults position={{ x: 50, y: 400 }} let:selected>
-  <NW title="Color">
+  <NW title="Color" key="color">
     <div class="node-body">
       <ColorPicker parameterStore={$inputs.color} />
     </div>
     <div class="output-anchors">
-      <Anchor let:linked let:connecting outputStore={output} output>
-        <!-- <ColorAnchor color={output} {connecting} {linked} /> -->
-      </Anchor>
+      <Anchor
+        id="color-anchor"
+        outputStore={output}
+        output
+        connections={[["material", "color"]]} />
     </div>
   </NW>
   <Resizer rotation />
