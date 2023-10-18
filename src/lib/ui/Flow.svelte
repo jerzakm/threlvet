@@ -53,12 +53,10 @@
       TD>
       <svelte:component this={materials[matConfig.material]} />
 
-      <!-- {#each Object.keys(matConfig.nodes) as nodeId}
+      {#each Object.keys(matConfig.nodes) as nodeId}
         {@const node = matConfig.nodes[nodeId]}
         <svelte:component this={nodes[node.type]} {...node} />
-      {/each} -->
-      <StandardMaterialNode />
-      <ColorNode />
+      {/each}
     </Svelvet>
   </div>
 {/if}

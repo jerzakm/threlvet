@@ -28,7 +28,7 @@
 
   $: {
     if ($inputs) {
-      console.log($inputs);
+      // console.log($inputs);
     }
     if ($output) {
       currentMaterial.set($output);

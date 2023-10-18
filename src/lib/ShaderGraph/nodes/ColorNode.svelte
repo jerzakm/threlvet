@@ -12,6 +12,8 @@
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
 
+  export let connections: any;
+
   type Inputs = {
     color: CSSColorString;
   };
@@ -21,6 +23,8 @@
   };
 
   const c = new Color();
+
+  $: console.log(connections);
 
   const inputs = generateInput(initialData);
   const procesor = (inputs: Inputs) => {
@@ -36,11 +40,13 @@
       <ColorPicker parameterStore={$inputs.color} />
     </div>
     <div class="output-anchors">
-      <Anchor
-        id="color-anchor"
-        outputStore={output}
-        output
-        connections={[["material", "color"]]} />
+      {#if connections.color}
+        <Anchor
+          id="color-anchor"
+          outputStore={output}
+          output
+          connections={connections.color} />
+      {/if}
     </div>
   </NW>
   <Resizer rotation />
