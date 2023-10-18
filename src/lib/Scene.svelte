@@ -14,9 +14,9 @@
 </script>
 
 <T.Mesh>
-  <T.SphereGeometry />
+  <T.SphereGeometry args={[2]} />
   <T is={material} />
 </T.Mesh>
 
-<T.AmbientLight />
-<T.DirectionalLight />
+<!-- <T.AmbientLight /> -->
+<T.DirectionalLight position.x={-5} position.y={5} position.z={5} />

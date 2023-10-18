@@ -4,7 +4,7 @@
   type Icon = "folder";
 
   export type TreeItem = {
-    title: string;
+    name: string;
     icon?: Icon;
 
     children?: TreeItem[];
@@ -29,13 +29,13 @@
   } = getContext<TreeView>("material-tree");
 </script>
 
-{#each treeItems as { title, icon, children }, i}
+{#each treeItems as { name: title, icon, children }, i}
   {@const itemId = `${title}-${i}`}
   {@const hasChildren = !!children?.length}
 
   <li class={level !== 1 ? "pl-4" : ""}>
     <button
-      class={`flex items-center gap-1 p-1 focus:bg-magnum-200 flex-col ${
+      class={`flex items-center gap-1 p-1 flex-col  ${
         $isSelected(itemId) ? "bg-blue-500/30" : ""
       }`}
       use:melt={$item({

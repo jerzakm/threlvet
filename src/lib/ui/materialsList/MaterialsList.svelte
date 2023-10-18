@@ -18,7 +18,7 @@
   } = ctx;
 
   const treeItems: TreeItem[] = [
-    { title: "Starter material" },
+    { name: "Starter material" },
     // {
     //   title: "lib",
     //   icon: "folder",
@@ -41,7 +41,7 @@
 </script>
 
 {#if open}
-  <div class="flex flex-col rounded-lg p-2 bg-white/40 shadow-md relative">
+  <div class="flex flex-col rounded-lg p-2 bg-white/9sd0 shadow-md relative">
     <div>
       <NewMaterial />
       <button
