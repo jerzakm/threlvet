@@ -2,6 +2,7 @@
   import { Node, Svelvet, Minimap, Controls } from "svelvet";
   import { uiStores } from "./uiStores";
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
+  import ColorNode from "$lib/ShaderGraph/nodes/ColorNode.svelte";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -25,10 +26,9 @@
       minimap
       theme="dark"
       edgeStyle="step"
-      TD
-      controls>
+      TD>
       <StandardMaterialNode />
-      <Controls />
+      <ColorNode />
     </Svelvet>
   </div>
 {/if}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Anchor, generateInput, generateOutput } from "svelvet";
+  import { Anchor, generateInput, generateOutput, Node } from "svelvet";
 
   export let title: string;
   export let inputsStore: ReturnType<typeof generateInput> | null = null;
@@ -8,32 +8,51 @@
   export let destroy: null | (() => void) = null;
 </script>
 
-<div class="node flex flex-col gap-2 p-0 pb-2">
-  <div class="header px-4 py-2">
-    <span>{title}</span>
-    {#if destroy}
-      <button class="destroy" on:click={destroy}>X</button>
-    {/if}
-  </div>
-  <div class="grid grid-cols-[2rem_1fr_2rem]">
-    <div>asd</div>
-    <slot />
-    {#if outputStore && key}
-      <div class="output-anchors flex items-end">
+<Node useDefaults position={{ x: 700, y: 400 }}>
+  <div class="node flex flex-col gap-2 p-0 pb-2">
+    <div class="header px-4 py-2">
+      <span>{title}</span>
+      {#if destroy}
+        <button class="destroy" on:click={destroy}>X</button>
+      {/if}
+    </div>
+    <div class="grid grid-cols-[2rem_1fr_2rem]">
+      {#if inputsStore}
         <Anchor
-          id={key}
-          connections={[["output", key]]}
-          let:linked
+          id="color"
           let:connecting
-          let:hovering
-          {outputStore}
-          output>
-          <!-- <CustomAnchor {hovering} {connecting} {linked} /> -->
-        </Anchor>
-      </div>
-    {/if}
+          let:linked
+          key="color"
+          input
+          {inputsStore} />
+
+        <span>color</span>
+        <!-- <div class="output-anchors flex items-end">
+          <Anchor
+            id={key}
+            let:linked
+            let:connecting
+            let:hovering
+            {outputStore}
+            input />
+        </div> -->
+      {/if}
+      <slot />
+      {#if outputStore}
+        <div class="output-anchors flex items-end">
+          <Anchor
+            id={key}
+            connections={[["output", key]]}
+            let:linked
+            let:connecting
+            let:hovering
+            {outputStore}
+            output />
+        </div>
+      {/if}
+    </div>
   </div>
-</div>
+</Node>
 
 <style>
   .node {

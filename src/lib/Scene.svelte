@@ -1,12 +1,13 @@
 <script lang="ts">
   import { T, useThrelte, useFrame } from "@threlte/core";
-  import {
-    MeshPhysicalNodeMaterial,
-    vec4,
-  } from "three/examples/jsm/nodes/Nodes";
+  import { currentMaterial } from "./materialStore";
+  // import {
+  //   MeshPhysicalNodeMaterial,
+  //   vec4,
+  // } from "three/examples/jsm/nodes/Nodes";
 
-  const material = new MeshPhysicalNodeMaterial({});
-  material.colorNode = vec4(1, 0.5, 1, 1);
+  // const material = new MeshPhysicalNodeMaterial({});
+  // material.colorNode = vec4(1, 0.5, 1, 1);
 
   // useFrame(() => {
   //   nodeFrame.update();
@@ -15,7 +16,10 @@
 
 <T.Mesh>
   <T.SphereGeometry args={[2]} />
-  <T is={material} />
+  <!-- <T is={material} /> -->
+  {#if $currentMaterial}
+    <T is={$currentMaterial} />
+  {/if}
 </T.Mesh>
 
 <!-- <T.AmbientLight /> -->
