@@ -1,10 +1,12 @@
 /** @type {import('tailwindcss').Config} */
+const defaultTheme = require("tailwindcss/defaultTheme");
 module.exports = {
   content: ['./src/**/*.{html,js,jsx,md,mdx,svelte,ts,vue}'],
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Inter', 'sans-serif']
+        sans: ["Inter Variable", "Inter", ...defaultTheme.fontFamily.sans],
+        mono: ["Bergen Mono", ...defaultTheme.fontFamily.mono]
       },
       colors: {
         orange: {

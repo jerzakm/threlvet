@@ -1,9 +1,12 @@
 <script lang="ts">
-  import { createTreeView } from "@melt-ui/svelte";
-  import { setContext } from "svelte";
-
   import type { TreeItem } from "./materialTree.svelte";
+  import { createTreeView } from "@melt-ui/svelte";
+  import { X } from "lucide-svelte";
+  import { setContext } from "svelte";
   import Tree from "./materialTree.svelte";
+  import NewMaterial from "./NewMaterial.svelte";
+
+  export let open = false;
 
   const ctx = createTreeView({
     defaultExpanded: ["lib-0", "tree-0"],
@@ -37,8 +40,21 @@
   ];
 </script>
 
-<div class="flex flex-col bg-blue-900 border-blue border rounded-md">
-  <ul class="overflow-auto px-4 pb-4 pt-2" {...$tree}>
-    <Tree {treeItems} />
-  </ul>
-</div>
+{#if open}
+  <div class="flex flex-col rounded-lg p-2 bg-white/40 shadow-md relative">
+    <div>
+      <NewMaterial />
+      <button
+        aria-label="close"
+        class="absolute right-0 top-0 inline-flex h-6 w-6 appearance-none
+              items-center justify-center rounded-full p-1
+              hover:bg-orange-100/70 focus:shadow-orange-400"
+        on:click={() => (open = false)}>
+        <X class="square-4" />
+      </button>
+    </div>
+    <ul class="overflow-auto w-full" {...$tree}>
+      <Tree {treeItems} />
+    </ul>
+  </div>
+{/if}
