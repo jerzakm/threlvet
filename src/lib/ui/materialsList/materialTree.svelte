@@ -1,23 +1,18 @@
 <script context="module" lang="ts">
-  import { ArrowLeft, Folder, FolderOpen } from "lucide-svelte";
-  import JS from "./JS.svelte";
-  import Svelte from "./Svelte.svelte";
+  import { Folder, FolderOpen, Sparkles } from "lucide-svelte";
 
-  type Icon = "svelte" | "folder" | "js";
+  type Icon = "folder";
 
   export type TreeItem = {
     title: string;
-    icon: Icon;
+    icon?: Icon;
 
     children?: TreeItem[];
   };
 
   export const icons = {
-    svelte: Svelte,
     folder: Folder,
     folderOpen: FolderOpen,
-    js: JS,
-    highlight: ArrowLeft,
   };
 </script>
 
@@ -31,7 +26,7 @@
   const {
     elements: { item, group },
     helpers: { isExpanded, isSelected },
-  } = getContext<TreeView>("tree");
+  } = getContext<TreeView>("material-tree");
 </script>
 
 {#each treeItems as { title, icon, children }, i}
@@ -40,7 +35,9 @@
 
   <li class={level !== 1 ? "pl-4" : ""}>
     <button
-      class="flex items-center gap-1 rounded-md p-1 focus:bg-magnum-200"
+      class={`flex items-center gap-1 p-1 focus:bg-magnum-200 flex-col ${
+        $isSelected(itemId) ? "bg-blue-500/30" : ""
+      }`}
       use:melt={$item({
         id: itemId,
         hasChildren,
@@ -49,15 +46,12 @@
       {#if icon === "folder" && hasChildren && $isExpanded(itemId)}
         <svelte:component this={icons["folderOpen"]} class="h-4 w-4" />
       {:else}
-        <svelte:component this={icons[icon]} class="h-4 w-4" />
+        <div class="h-32 w-32 flex flex-col items-center justify-center">
+          <Sparkles class="w-20 h-20" />
+        </div>
       {/if}
 
-      <span class="select-none">{title}</span>
-
-      <!-- Selected icon. -->
-      {#if $isSelected(itemId)}
-        <svelte:component this={icons["highlight"]} class="h-4 w-4" />
-      {/if}
+      <span class="select-none text-xs -mt-1">{title}</span>
     </button>
 
     {#if children}

@@ -2,4 +2,6 @@
   import MaterialsList from "./materialsList/MaterialsList.svelte";
 </script>
 
-<MaterialsList />
+<div class="text-white m-2">
+  <MaterialsList />
+</div>

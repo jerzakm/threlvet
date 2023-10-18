@@ -8,7 +8,7 @@
   <meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<div class="fixed top-0 left-0">
+<div class="fixed top-0 left-0 z-50">
   <UI />
 </div>
 <div class="fixed top-0 left-0 w-screen h-screen">
