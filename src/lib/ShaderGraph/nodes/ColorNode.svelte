@@ -1,18 +1,16 @@
 <script lang="ts">
-  import {
-    generateInput,
-    generateOutput,
-    Resizer,
-    ColorPicker,
-    Node,
-    Anchor,
-  } from "svelvet";
   import type { CSSColorString } from "svelvet";
-  import NW from "./NW.svelte";
+  import { Anchor, ColorPicker, generateInput, generateOutput } from "svelvet";
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
+  import NodeWrapper from "../NodeWrapper.svelte";
 
-  export let connections: any;
+  export let connections = {
+    color: [],
+    r: [],
+    g: [],
+    b: [],
+  };
 
   type Inputs = {
     color: CSSColorString;
@@ -24,33 +22,39 @@
 
   const c = new Color();
 
-  $: console.log(connections);
-
   const inputs = generateInput(initialData);
   const procesor = (inputs: Inputs) => {
     c.set(inputs.color);
+
     return color(c);
   };
   const output = generateOutput(inputs, procesor);
 </script>
 
-<Node useDefaults position={{ x: 50, y: 400 }} let:selected>
-  <NW title="Color" key="color">
-    <div class="node-body">
-      <ColorPicker parameterStore={$inputs.color} />
+<NodeWrapper title="Color" position={{ x: 50, y: 400 }}>
+  <div />
+  <div class="node-body">
+    <ColorPicker parameterStore={$inputs.color} />
+  </div>
+  <div class="output-anchors">
+    <div class="flex gap-1">
+      <span>rgba</span>
+      <Anchor
+        id="color-anchor"
+        outputStore={output}
+        output
+        connections={connections.color} />
     </div>
-    <div class="output-anchors">
-      {#if connections.color}
-        <Anchor
-          id="color-anchor"
-          outputStore={output}
-          output
-          connections={connections.color} />
-      {/if}
+    <div class="flex gap-1">
+      <span>rgb</span>
+      <!-- <Anchor
+        id="color-anchor"
+        outputStore={output}
+        output
+        connections={connections.rgb} /> -->
     </div>
-  </NW>
-  <Resizer rotation />
-</Node>
+  </div>
+</NodeWrapper>
 
 <style>
   .node-body {
@@ -62,8 +66,8 @@
 
   .output-anchors {
     position: absolute;
-    right: -24px;
-    top: 8px;
+    right: 0px;
+    top: 20px;
     display: flex;
     flex-direction: column;
     gap: 10px;

@@ -36,7 +36,11 @@
   }
 </script>
 
-<NodeWrapper title="StandardNodeMaterial" inputsStore={inputs}>
+<NodeWrapper
+  title="StandardNodeMaterial"
+  id="material"
+  inputsStore={inputs}
+  position={{ x: 800, y: 400 }}>
   <div class="node-body">
     <!-- <Slider
         min={1}
