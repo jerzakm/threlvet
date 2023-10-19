@@ -8,7 +8,7 @@
   let width = window.innerWidth;
   let height = window.innerHeight;
 
-  const { shaderGraphOpen } = uiStores;
+  const { shaderGraphOpen, shaderGraphNeedsRefresh } = uiStores;
 
   const resize = () => {
     width = window.innerWidth;
@@ -25,17 +25,14 @@
 
   // todo - better re-rendering when config changes
   let refreshKey = 0;
-  let needsRefresh = false;
-
-  $: $materialDefinition && (needsRefresh = true);
 </script>
 
 <svelte:window
   on:resize={resize}
   on:mouseup={() => {
-    if (needsRefresh) {
+    if ($shaderGraphNeedsRefresh) {
       refreshKey++;
-      needsRefresh = false;
+      shaderGraphNeedsRefresh.set(false);
     }
   }} />
 

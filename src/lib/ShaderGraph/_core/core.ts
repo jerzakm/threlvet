@@ -11,7 +11,7 @@ export type NodeInOutType =
 
 export const currentMaterial = writable<any>(undefined);
 
-export const materialDefinition = writable({
+export const materialDefinition = writable<any>({
   material: "StandardNodeMaterial",
   nodes: {
     1: {

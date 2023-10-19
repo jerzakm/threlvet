@@ -4,6 +4,7 @@
   import TypedAnchor from "../TypedAnchor.svelte";
   import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
   import { materialDefinition } from "../core";
+  import { uiStores } from "$lib/ui/uiStores";
 
   export let title: string;
 
@@ -28,15 +29,27 @@
 
   // lock in place if it's the material
   const id = $$restProps.id;
-  $: materialPosition =
-    id === "material" ? { position: { x: 700, y: 400 } } : {};
+  const isMaterial = id === "material";
+  $: materialPosition = isMaterial ? { position: { x: 700, y: 400 } } : {};
+
+  // save node position to store
+  let currentPosition: any;
+  $: {
+    if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
+      $materialDefinition.nodes[id].position = currentPosition;
+    }
+  }
+
+  // re-initializing graph structure on crucial changes (output drops)
+  const { shaderGraphNeedsRefresh } = uiStores;
 </script>
 
 <Node
   useDefaults
   {...$$restProps}
   {...materialPosition}
-  locked={id === "material"}>
+  locked={id === "material"}
+  bind:position={currentPosition}>
   <div class="node flex flex-col gap-2 p-0 pb-2">
     <div class="header px-4 py-2">
       <span>{title}</span>
@@ -74,7 +87,7 @@
               outputStore={outputDef.outputStore}
               output
               on:connection={({ detail }) => {
-                console.log(detail);
+                // console.log(detail);
               }}
               on:disconnection={(e) => {
                 const detail = e.detail;
@@ -83,6 +96,7 @@
                 //@ts-ignore
                 // this refreshes the material
                 $materialDefinition.nodes[nodeId].connections[anchorKey] = [];
+                shaderGraphNeedsRefresh.set(true);
               }} />
           {/each}
         {/if}

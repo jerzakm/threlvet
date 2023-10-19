@@ -6,8 +6,6 @@
   type $$Props = ComponentProps<Anchor> & { type: NodeInOutType };
 
   export let type: NodeInOutType;
-
-  $: console.log($$restProps.connections);
 </script>
 
 <Anchor {...$$restProps} let:linked on:connection on:disconnection>
