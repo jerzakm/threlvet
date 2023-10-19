@@ -13,7 +13,7 @@
 
   export let position = { x: 0, y: 0 };
 
-  const processingData = {
+  export let processingData = {
     float: 0,
   };
 
@@ -30,7 +30,7 @@
   $: f = $processingStore.float;
 
   $: step = 0.001;
-  $: max = Math.max(Math.abs($f * 10), 1);
+  $: max = Math.max(Math.abs($f * 1.3), 1);
   $: min = -max;
 </script>
 

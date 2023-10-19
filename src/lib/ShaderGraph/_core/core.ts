@@ -26,6 +26,9 @@ export const materialDefinition = writable<any>({
         x: 200,
         y: 300,
       },
+      processingData: {
+        color: "#FF33AA",
+      },
     },
     2: {
       type: "Float",
@@ -35,6 +38,9 @@ export const materialDefinition = writable<any>({
       position: {
         x: 300,
         y: 600,
+      },
+      processingData: {
+        float: 0.5,
       },
     },
   },

@@ -16,7 +16,7 @@
 
   export let position = { x: 0, y: 0 };
 
-  const processingData = {
+  export let processingData = {
     color: "#E94646",
   };
 
