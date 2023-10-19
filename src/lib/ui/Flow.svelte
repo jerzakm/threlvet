@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Node, Svelvet, Minimap, Controls } from "svelvet";
-  import { uiStores } from "./uiStores";
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
   import ColorNode from "$lib/ShaderGraph/nodes/ColorNode.svelte";
+  import { Svelvet } from "svelvet";
+  import { uiStores } from "./uiStores";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -47,11 +47,10 @@
       {width}
       {height}
       minimap
-      theme="dark"
+      theme="light"
       edgeStyle="step"
       TD>
       <svelte:component this={materials[matConfig.material]} />
-
       {#each Object.keys(matConfig.nodes) as nodeId}
         {@const node = matConfig.nodes[nodeId]}
         <svelte:component this={nodes[node.type]} {...node} />

@@ -17,18 +17,10 @@
       {/if}
     </div>
     <div class="grid grid-cols-[2rem_1fr_2rem]">
-      {#if inputsStore}
-        <Anchor
-          id="color"
-          let:connecting
-          let:linked
-          key="color"
-          input
-          connections={[["color", "color"]]}
-          {inputsStore} />
+      <div class="flex flex-col gap-1">
+        <slot name="inputs" />
+      </div>
 
-        <span>color</span>
-      {/if}
       <slot />
       {#if outputStore}
         <div class="output-anchors flex items-end">

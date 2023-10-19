@@ -12,9 +12,7 @@
 <div class="fixed top-0 left-0 z-20">
   <UI />
 </div>
-<div class="fixed top-0 left-0 z-10">
-  <Flow />
-</div>
+<Flow />
 <div
   class="fixed top-0 right-0 w-[500px] h-[500px] pointer-events-none z-30
 ">
