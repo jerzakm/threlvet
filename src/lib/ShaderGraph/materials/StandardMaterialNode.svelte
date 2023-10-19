@@ -10,9 +10,11 @@
   import { currentMaterial } from "../_core/core";
 
   const material = new MeshStandardNodeMaterial({});
+
   const procesor = (inputs: any) => {
-    if (inputs.color) material.colorNode = inputs.color;
-    material.metalnessNode = float(1);
+    material.colorNode = inputs.color;
+    material.metalnessNode = inputs.metalness;
+
     material.needsUpdate = true;
     currentMaterial.set(material);
     return material;
@@ -20,6 +22,7 @@
 
   const inputDef = inputBuilder()
     .add("color", "v4", vec4(1, 1, 1, 1))
+    .add("metalness", "f", float(0))
     .procesor(procesor)
     .build();
 </script>

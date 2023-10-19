@@ -3,12 +3,11 @@
   import { GraphNode } from "../_core/GraphNode";
   import { outputBuilder } from "../_core/GraphNode/inOutBuilder";
   import { float } from "three/examples/jsm/nodes/Nodes";
+  import { Color } from "three";
+  import { color } from "three/examples/jsm/nodes/Nodes";
 
   export let connections = {
-    color: [],
-    r: [],
-    g: [],
-    b: [],
+    frames: [],
   };
 
   export let id: number | undefined = undefined;
@@ -16,23 +15,20 @@
   export let position = { x: 0, y: 0 };
 
   const processingData = {
-    float: 1,
+    f: 0,
   };
 
   const procesor = (inputs: typeof processingData) => {
-    return float(inputs.float);
+    return float(1);
   };
-
-  const outputDef = outputBuilder()
-    .add("float", "f", float(processingData.float))
+  const c = new Color();
+  const outputDef: any = outputBuilder()
+    .add("float", "f", float(1))
     .processingDataDependency(processingData)
     .procesor(procesor)
     .build();
-
-  const { processingStore } = outputDef;
 </script>
 
 <GraphNode title="Float" {position} {id} {outputDef} {connections}>
   Float picker here
-  <!-- <ColorPicker parameterStore={$processingStore.color} /> -->
 </GraphNode>

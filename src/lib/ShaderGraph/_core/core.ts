@@ -27,5 +27,15 @@ export const materialDefinition = writable<any>({
         y: 300,
       },
     },
+    2: {
+      type: "Float",
+      connections: {
+        float: [["material", "metalness"]],
+      },
+      position: {
+        x: 400,
+        y: 600,
+      },
+    },
   },
 });

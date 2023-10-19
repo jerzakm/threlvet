@@ -34,11 +34,18 @@
 
   // save node position to store
   let currentPosition: any;
-  $: {
-    if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
-      $materialDefinition.nodes[id].position = currentPosition;
-    }
-  }
+
+  // $: {
+  //   if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
+  //     if (
+  //       // todo better compare ?
+  //       JSON.stringify($materialDefinition.nodes[id]?.position) !==
+  //       JSON.stringify(currentPosition)
+  //     ) {
+  //       $materialDefinition.nodes[id].position = currentPosition;
+  //     }
+  //   }
+  // }
 
   // re-initializing graph structure on crucial changes (output drops)
   const { shaderGraphNeedsRefresh } = uiStores;
@@ -57,14 +64,14 @@
         <button class="destroy" on:click={destroy}>X</button>
       {/if}
     </div>
-    <div class="grid grid-cols-[2rem_1fr_2rem]">
-      <div class="flex flex-col gap-1 -translate-x-6">
+    <div class="flex">
+      <div class="flex flex-col gap-1 -translate-x-6 min-w-[1rem]">
         {#if inputDef}
           <Inputs>
             {#each inputDef.inputs as i}
               <TypedAnchor
-                id="color"
-                key="color"
+                id={i.key}
+                key={i.key}
                 input
                 inputsStore={inputs}
                 type={i.type} />
@@ -76,8 +83,8 @@
         <slot />
       </div>
 
-      <div class="flex gap-1 justify-end translate-x-6">
-        {#if outputDef}
+      <div class="flex gap-1 justify-end translate-x-6 min-w-[1rem]">
+        {#if outputDef && connections}
           {#each outputDef.outputs as o}
             <TypedAnchor
               id={o.key}
