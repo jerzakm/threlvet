@@ -1,9 +1,8 @@
 <script lang="ts">
   import { ColorPicker } from "svelvet";
-  import { Color } from "three";
-  import { color } from "three/examples/jsm/nodes/Nodes";
   import { GraphNode } from "../_core/GraphNode";
   import { outputBuilder } from "../_core/GraphNode/inOutBuilder";
+  import { float } from "three/examples/jsm/nodes/Nodes";
 
   export let connections = {
     color: [],
@@ -17,19 +16,15 @@
   export let position = { x: 0, y: 0 };
 
   const processingData = {
-    color: "#E94646",
+    float: 1,
   };
-
-  const c = new Color();
 
   const procesor = (inputs: typeof processingData) => {
-    c.set(inputs.color);
-    return color(c);
+    return float(inputs.float);
   };
 
-  // todo picker type err fix / better color picker
-  const outputDef: any = outputBuilder()
-    .add("color", "v4", color(c))
+  const outputDef = outputBuilder()
+    .add("float", "f", float(processingData.float))
     .processingDataDependency(processingData)
     .procesor(procesor)
     .build();
@@ -37,6 +32,7 @@
   const { processingStore } = outputDef;
 </script>
 
-<GraphNode title="Color" {position} {id} {outputDef} {connections}>
-  <ColorPicker parameterStore={$processingStore.color} />
+<GraphNode title="Float" {position} {id} {outputDef} {connections}>
+  Float picker here
+  <!-- <ColorPicker parameterStore={$processingStore.color} /> -->
 </GraphNode>

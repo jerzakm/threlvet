@@ -104,25 +104,3 @@
     </div>
   </div>
 </Node>
-
-<style>
-  .output-anchors {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .destroy {
-    background: none;
-    border: none;
-    color: inherit;
-    cursor: pointer;
-  }
-  .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
-    border-bottom: solid 1px;
-    border-color: lightgray;
-  }
-</style>
