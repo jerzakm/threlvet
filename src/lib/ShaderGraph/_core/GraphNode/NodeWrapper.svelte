@@ -2,6 +2,8 @@
   import { generateInput, generateOutput, Node } from "svelvet";
   import { Inputs } from ".";
   import TypedAnchor from "../TypedAnchor.svelte";
+  import { currentMaterial } from "$lib/materialStore";
+  import { matConfig } from "$lib/ui/debugStuff";
 
   export let title: string;
 
@@ -22,12 +24,7 @@
   export let destroy: null | (() => void) = null;
 </script>
 
-<Node
-  useDefaults
-  {...$$restProps}
-  on:connection={(e) => {
-    console.log("connection stuff");
-  }}>
+<Node useDefaults {...$$restProps}>
   <div class="node flex flex-col gap-2 p-0 pb-2">
     <div class="header px-4 py-2">
       <span>{title}</span>
@@ -45,10 +42,7 @@
                 key={i.key}
                 input
                 inputsStore={inputs}
-                type={i.type}
-                on:disconnection={(e) => {
-                  console.log(i.type, e);
-                }} />
+                type={i.type} />
             {/each}
           </Inputs>
         {/if}

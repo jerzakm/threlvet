@@ -1,9 +1,17 @@
 <script lang="ts">
-  import type { CSSColorString } from "svelvet";
-  import { Anchor, ColorPicker, generateInput, generateOutput } from "svelvet";
+  import {
+    Anchor,
+    ColorPicker,
+    generateInput,
+    generateOutput,
+    Edge,
+  } from "svelvet";
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
   import { GraphNode, Outputs } from "../_core/GraphNode";
+  import { matConfig } from "$lib/ui/debugStuff";
+  import { get } from "svelte/store";
+  import { uiStores } from "$lib/ui/uiStores";
 
   export let connections = {
     color: [],
@@ -12,26 +20,24 @@
     b: [],
   };
 
-  type Inputs = {
-    color: CSSColorString;
-  };
+  export let id: number | undefined = undefined;
 
-  const initialData: Inputs = {
+  const initialData = {
     color: "#E94646",
   };
 
   const c = new Color();
 
-  const inputs = generateInput(initialData);
-  const procesor = (inputs: Inputs) => {
+  $: inputs = generateInput(initialData);
+  const procesor = (inputs) => {
     c.set(inputs.color);
-
     return color(c);
   };
-  const output = generateOutput(inputs, procesor);
+
+  $: output = generateOutput(inputs, procesor);
 </script>
 
-<GraphNode title="Color" position={{ x: 50, y: 400 }}>
+<GraphNode title="Color" position={{ x: 50, y: 400 }} {id}>
   <div class="node-body" slot="body">
     <ColorPicker parameterStore={$inputs.color} />
   </div>
@@ -40,10 +46,20 @@
     <div class="flex gap-1">
       <span>rgba</span>
       <Anchor
-        id="color-anchor"
+        id="color"
         outputStore={output}
         output
-        connections={connections.color} />
+        connections={connections.color}
+        let:connecting
+        on:connection={({ detail }) => {}}
+        on:disconnection={(e) => {
+          const detail = e.detail;
+          const [anchor, anchorKey, node, nodeId] =
+            detail.anchor.id.split(/[-/]/);
+          $matConfig.nodes[nodeId].connections[anchorKey] = [];
+        }}>
+        <Edge slot="edge" />
+      </Anchor>
     </div>
   </Outputs>
 </GraphNode>
@@ -63,17 +79,5 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-  }
-  .note {
-    font-family: "Reenie Beanie", sans-serif;
-    position: absolute;
-    top: 10%;
-    left: 240px;
-    width: 400px;
-    transform: rotate(-6deg);
-    color: inerhit;
-    font-weight: 200px;
-    font-size: 30px;
-    pointer-events: none;
   }
 </style>
