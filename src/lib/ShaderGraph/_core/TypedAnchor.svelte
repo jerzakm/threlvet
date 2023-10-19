@@ -11,7 +11,10 @@
 </script>
 
 <Anchor {...$$restProps} let:linked on:connection on:disconnection>
-  <div class="flex gap-1 font-mono items-center">
+  <div
+    class={`flex gap-1 font-mono items-center ${
+      $$restProps.output ? "flex-row-reverse" : ""
+    }`}>
     <div
       class={`border border-black rounded-md flex items-center justify-center w-5 h-5 ${
         linked ? "bg-orange-400/80" : ""

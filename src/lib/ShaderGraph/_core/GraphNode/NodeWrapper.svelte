@@ -53,7 +53,7 @@
 
       <slot name="body" />
 
-      <div class="flex gap-1">
+      <div class="flex gap-1 justify-end translate-x-6">
         {#if outputDef}
           {#each outputDef.outputs as o}
             <TypedAnchor
