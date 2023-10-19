@@ -3,7 +3,7 @@
   import ColorNode from "$lib/ShaderGraph/nodes/ColorNode.svelte";
   import { Svelvet, Node, Anchor } from "svelvet";
   import { uiStores } from "./uiStores";
-  import { matConfig } from "./debugStuff";
+  import { materialDefinition } from "$lib/ShaderGraph/_core/core";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -27,7 +27,7 @@
   let refreshKey = 0;
   let needsRefresh = false;
 
-  $: $matConfig && (needsRefresh = true);
+  $: $materialDefinition && (needsRefresh = true);
 </script>
 
 <svelte:window
@@ -49,10 +49,10 @@
       theme="dark"
       edgeStyle="step">
       {#key refreshKey}
-        <svelte:component this={materials[$matConfig.material]} />
+        <svelte:component this={materials[$materialDefinition.material]} />
 
-        {#each Object.keys($matConfig.nodes) as id}
-          {@const node = $matConfig.nodes[id]}
+        {#each Object.keys($materialDefinition.nodes) as id}
+          {@const node = $materialDefinition.nodes[id]}
           <svelte:component this={nodes[node.type]} {...node} {id} />
         {/each}
       {/key}

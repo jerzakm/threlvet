@@ -2,6 +2,8 @@
   import { generateInput, generateOutput, Node } from "svelvet";
   import { Inputs } from ".";
   import TypedAnchor from "../TypedAnchor.svelte";
+  import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
+  import { materialDefinition } from "../core";
 
   export let title: string;
 
@@ -10,7 +12,7 @@
   $: initialData =
     inputDef &&
     inputDef.inputs &&
-    inputDef.inputs.map((input) => {
+    inputDef.inputs.map((input: any) => {
       const key = input.key;
       return { [key]: input.default };
     });
@@ -19,7 +21,8 @@
   $: inputDef && inputs && generateOutput(inputs, inputDef.procesor);
 
   /** OUTPUT STUFF*/
-  export let outputDef: any | undefined = undefined;
+  export let outputDef: ShaderNodeOutputDefinition | undefined = undefined;
+  export let connections: any;
 
   export let destroy: null | (() => void) = null;
 </script>
@@ -39,7 +42,7 @@
             {#each inputDef.inputs as i}
               <TypedAnchor
                 id="color"
-                key={i.key}
+                key="color"
                 input
                 inputsStore={inputs}
                 type={i.type} />
@@ -49,7 +52,31 @@
       </div>
 
       <slot name="body" />
-      <slot name="output" />
+
+      <div class="flex gap-1">
+        {#if outputDef}
+          {#each outputDef.outputs as o}
+            <TypedAnchor
+              id={o.key}
+              key={o.key}
+              connections={connections[o.key]}
+              type={o.type}
+              outputStore={outputDef.outputStore}
+              output
+              on:connection={({ detail }) => {
+                console.log(detail);
+              }}
+              on:disconnection={(e) => {
+                const detail = e.detail;
+                const [anchor, anchorKey, node, nodeId] =
+                  detail.anchor.id.split(/[-/]/);
+                //@ts-ignore
+                // this refreshes the material
+                $materialDefinition.nodes[nodeId].connections[anchorKey] = [];
+              }} />
+          {/each}
+        {/if}
+      </div>
     </div>
   </div>
 </Node>

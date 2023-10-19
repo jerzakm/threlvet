@@ -1,11 +1,13 @@
 <script lang="ts">
   import type { ComponentProps } from "svelte";
   import { Anchor } from "svelvet";
-  import type { NodeInOutType } from "./shaderNode";
+  import type { NodeInOutType } from "./core";
 
   type $$Props = ComponentProps<Anchor> & { type: NodeInOutType };
 
   export let type: NodeInOutType;
+
+  $: console.log($$restProps.connections);
 </script>
 
 <Anchor {...$$restProps} let:linked on:connection on:disconnection>

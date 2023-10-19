@@ -1,6 +1,7 @@
 <script lang="ts">
   import { T, useThrelte, useFrame } from "@threlte/core";
-  import { currentMaterial } from "./materialStore";
+  import { currentMaterial } from "./ShaderGraph/_core/core";
+
   // import {
   //   MeshPhysicalNodeMaterial,
   //   vec4,

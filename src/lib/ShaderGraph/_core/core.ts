@@ -1,6 +1,17 @@
 import { writable } from "svelte/store";
+export type NodeInOutType =
+  | "f"
+  | "v2"
+  | "v3"
+  | "v4"
+  | "m3"
+  | "m4"
+  | "i"
+  | "tex";
 
-export const matConfig = writable({
+export const currentMaterial = writable<any>(undefined);
+
+export const materialDefinition = writable({
   material: "StandardNodeMaterial",
   nodes: {
     1: {

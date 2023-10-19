@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { currentMaterial } from "$lib/materialStore";
   import { GraphNode } from "../_core/GraphNode";
 
   import {
@@ -7,6 +6,7 @@
     vec4,
   } from "three/examples/jsm/nodes/Nodes";
   import { inputBuilder } from "../_core/GraphNode/inOutBuilder";
+  import { currentMaterial } from "../_core/core";
 
   const procesor = (inputs: any) => {
     const material = new MeshStandardNodeMaterial({});

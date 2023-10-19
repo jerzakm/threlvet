@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { matConfig } from "$lib/ui/debugStuff";
   import {
     Anchor,
     ColorPicker,
@@ -32,38 +31,24 @@
     return color(c);
   };
 
-  const { outputStore, processingStore } = outputBuilder()
+  const outputDef = outputBuilder()
     .add("color", "v4", color(c))
     .processingDataDependency(processingData)
     .procesor(procesor)
     .build();
+
+  const { processingStore } = outputDef;
 </script>
 
-<GraphNode title="Color" position={{ x: 50, y: 400 }} {id}>
+<GraphNode
+  title="Color"
+  position={{ x: 50, y: 400 }}
+  {id}
+  {outputDef}
+  {connections}>
   <div class="node-body" slot="body">
     <ColorPicker parameterStore={$processingStore.color} />
   </div>
-
-  <Outputs slot="output">
-    <div class="flex gap-1">
-      <span>rgba</span>
-      <Anchor
-        id="color"
-        {outputStore}
-        output
-        connections={connections.color}
-        let:connecting
-        on:connection={({ detail }) => {}}
-        on:disconnection={(e) => {
-          const detail = e.detail;
-          const [anchor, anchorKey, node, nodeId] =
-            detail.anchor.id.split(/[-/]/);
-          $matConfig.nodes[nodeId].connections[anchorKey] = [];
-        }}>
-        <Edge slot="edge" />
-      </Anchor>
-    </div>
-  </Outputs>
 </GraphNode>
 
 <style>
