@@ -11,7 +11,7 @@
   import TypedAnchor from "../_core/TypedAnchor.svelte";
   import type { NodeInOut, NodeInOutType } from "../_core/shaderNode";
 
-  const inputsT: NodeInOut = [
+  const indputDefinition: NodeInOut = [
     {
       key: "color",
       type: "v4",
@@ -19,12 +19,10 @@
     },
   ];
 
-  const initialData: any = inputsT.map((input) => {
+  const initialData: any = indputDefinition.map((input) => {
     const key = input.key;
     return { [key]: input.default };
   });
-
-  console.log(initialData);
 
   const material = new MeshStandardNodeMaterial({});
 
@@ -52,7 +50,7 @@
   id="material"
   position={{ x: 800, y: 400 }}>
   <Inputs slot="inputs">
-    {#each inputsT as i}
+    {#each indputDefinition as i}
       <TypedAnchor
         id="color"
         key={i.key}
