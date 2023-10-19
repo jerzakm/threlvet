@@ -1,9 +1,10 @@
 <script lang="ts">
-  import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
-  import ColorNode from "$lib/ShaderGraph/nodes/ColorNode.svelte";
-  import { Svelvet, Node, Anchor } from "svelvet";
-  import { uiStores } from "./uiStores";
   import { materialDefinition } from "$lib/ShaderGraph/_core/core";
+  import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
+
+  import { Svelvet } from "svelvet";
+  import { uiStores } from "./uiStores";
+  import { ColorNode, Float } from "$lib/ShaderGraph/nodes";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -21,6 +22,7 @@
 
   const nodes = {
     ColorNode: ColorNode,
+    Float: Float,
   };
 
   // todo - better re-rendering when config changes
