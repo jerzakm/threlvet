@@ -14,6 +14,7 @@
   const procesor = (inputs: any) => {
     material.colorNode = inputs.color;
     material.metalnessNode = inputs.metalness;
+    // console.log(inputs.metalness);
 
     material.needsUpdate = true;
     currentMaterial.set(material);

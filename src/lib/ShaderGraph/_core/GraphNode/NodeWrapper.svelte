@@ -79,7 +79,7 @@
           </Inputs>
         {/if}
       </div>
-      <div class="flex flex-col items-center justify-center">
+      <div class="flex flex-col items-center justify-center flex-1">
         <slot />
       </div>
 
