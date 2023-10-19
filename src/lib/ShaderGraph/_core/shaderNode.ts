@@ -7,5 +7,3 @@ export type NodeInOutType =
   | "m4"
   | "i"
   | "tex";
-
-export type NodeInOut = { key: string; type: NodeInOutType; default: any }[];

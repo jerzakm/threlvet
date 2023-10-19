@@ -6,11 +6,9 @@
   type $$Props = ComponentProps<Anchor> & { type: NodeInOutType };
 
   export let type: NodeInOutType;
-
-  //
 </script>
 
-<Anchor {...$$restProps} let:linked>
+<Anchor {...$$restProps} let:linked on:connection on:disconnection>
   <div class="flex gap-1 font-mono items-center">
     <div
       class={`border border-black rounded-md flex items-center justify-center w-5 h-5 ${

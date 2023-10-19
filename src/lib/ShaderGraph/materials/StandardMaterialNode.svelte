@@ -1,64 +1,33 @@
 <script lang="ts">
   import { currentMaterial } from "$lib/materialStore";
-  import type { ConvertType } from "three/examples/jsm/nodes/shadernode/ShaderNode";
-  import { GraphNode, Inputs } from "../_core/GraphNode";
-  import { generateInput, generateOutput, Slider, Node, Anchor } from "svelvet";
+  import { GraphNode } from "../_core/GraphNode";
 
   import {
     MeshStandardNodeMaterial,
     vec4,
   } from "three/examples/jsm/nodes/Nodes";
-  import TypedAnchor from "../_core/TypedAnchor.svelte";
-  import type { NodeInOut, NodeInOutType } from "../_core/shaderNode";
+  import { inputBuilder } from "../_core/GraphNode/inOutBuilder";
 
-  const indputDefinition: NodeInOut = [
-    {
-      key: "color",
-      type: "v4",
-      default: vec4(1, 1, 1, 1),
-    },
-  ];
-
-  const initialData: any = indputDefinition.map((input) => {
-    const key = input.key;
-    return { [key]: input.default };
-  });
-
-  const material = new MeshStandardNodeMaterial({});
-
-  const inputs: any = generateInput(initialData);
   const procesor = (inputs: any) => {
+    const material = new MeshStandardNodeMaterial({});
     if (inputs.color) material.colorNode = inputs.color;
 
     material.needsUpdate = true;
+    currentMaterial.set(material);
     return material;
   };
-  const output = generateOutput(inputs, procesor);
 
-  $: {
-    if ($inputs) {
-      // console.log($inputs);
-    }
-    if ($output) {
-      currentMaterial.set($output);
-    }
-  }
+  const inputDef = inputBuilder()
+    .add("color", "v4", vec4(1, 1, 1, 1))
+    .procesor(procesor)
+    .build();
 </script>
 
 <GraphNode
   title="StandardNodeMaterial"
   id="material"
+  {inputDef}
   position={{ x: 800, y: 400 }}>
-  <Inputs slot="inputs">
-    {#each indputDefinition as i}
-      <TypedAnchor
-        id="color"
-        key={i.key}
-        input
-        inputsStore={inputs}
-        type={i.type} />
-    {/each}
-  </Inputs>
   <div class="flex flex-col items-center justify-center">
     <!-- <span>color</span> -->
     <!-- <Slider

@@ -1,8 +1,9 @@
 <script lang="ts">
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
   import ColorNode from "$lib/ShaderGraph/nodes/ColorNode.svelte";
-  import { Svelvet } from "svelvet";
+  import { Svelvet, Node, Anchor } from "svelvet";
   import { uiStores } from "./uiStores";
+  import { matConfig } from "./debugStuff";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -21,21 +22,6 @@
   const nodes = {
     ColorNode: ColorNode,
   };
-
-  const matConfig = {
-    material: "StandardNodeMaterial",
-    nodes: {
-      1: {
-        type: "ColorNode",
-        connections: {
-          color: [["material", "color"]],
-          r: [],
-          g: [],
-          b: [],
-        },
-      },
-    },
-  } as const;
 </script>
 
 <svelte:window on:resize={resize} />
@@ -47,14 +33,15 @@
       {width}
       {height}
       minimap
-      theme="light"
-      edgeStyle="step"
-      TD>
-      <svelte:component this={materials[matConfig.material]} />
-      {#each Object.keys(matConfig.nodes) as nodeId}
-        {@const node = matConfig.nodes[nodeId]}
-        <svelte:component this={nodes[node.type]} {...node} />
-      {/each}
+      theme="dark"
+      edgeStyle="step">
+      {#key matConfig}
+        <svelte:component this={materials[$matConfig.material]} />
+        {#each Object.keys($matConfig.nodes) as nodeId}
+          {@const node = $matConfig.nodes[nodeId]}
+          <svelte:component this={nodes[node.type]} {...node} />
+        {/each}
+      {/key}
     </Svelvet>
   </div>
 {/if}
