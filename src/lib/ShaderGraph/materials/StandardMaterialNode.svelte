@@ -23,18 +23,4 @@
     .build();
 </script>
 
-<GraphNode
-  title="StandardNodeMaterial"
-  id="material"
-  {inputDef}
-  position={{ x: 800, y: 400 }}>
-  <div class="flex flex-col items-center justify-center">
-    <!-- <span>color</span> -->
-    <!-- <Slider
-        min={1}
-        max={12}
-        fixed={1}
-        step={0.1}
-        parameterStore={$inputs.color} /> -->
-  </div>
-</GraphNode>
+<GraphNode title="StandardNodeMaterial" id="material" {inputDef} />

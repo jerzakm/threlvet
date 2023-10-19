@@ -22,6 +22,10 @@ export const materialDefinition = writable({
         g: [],
         b: [],
       },
+      position: {
+        x: 200,
+        y: 300,
+      },
     },
   },
 });

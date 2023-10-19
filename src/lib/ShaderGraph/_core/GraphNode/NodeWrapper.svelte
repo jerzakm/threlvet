@@ -22,12 +22,21 @@
 
   /** OUTPUT STUFF*/
   export let outputDef: ShaderNodeOutputDefinition | undefined = undefined;
-  export let connections: any;
+  export let connections: any | undefined = undefined;
 
   export let destroy: null | (() => void) = null;
+
+  // lock in place if it's the material
+  const id = $$restProps.id;
+  $: materialPosition =
+    id === "material" ? { position: { x: 700, y: 400 } } : {};
 </script>
 
-<Node useDefaults {...$$restProps}>
+<Node
+  useDefaults
+  {...$$restProps}
+  {...materialPosition}
+  locked={id === "material"}>
   <div class="node flex flex-col gap-2 p-0 pb-2">
     <div class="header px-4 py-2">
       <span>{title}</span>
@@ -50,8 +59,9 @@
           </Inputs>
         {/if}
       </div>
-
-      <slot name="body" />
+      <div class="flex flex-col items-center justify-center">
+        <slot />
+      </div>
 
       <div class="flex gap-1 justify-end translate-x-6">
         {#if outputDef}
