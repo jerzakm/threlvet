@@ -2,9 +2,6 @@
   import { Anchor, generateInput, generateOutput, Node } from "svelvet";
 
   export let title: string;
-  export let inputsStore: ReturnType<typeof generateInput> | null = null;
-  export let outputStore: ReturnType<typeof generateOutput> | null = null;
-  export let key = "";
   export let destroy: null | (() => void) = null;
 </script>
 
@@ -21,19 +18,8 @@
         <slot name="inputs" />
       </div>
 
-      <slot />
-      {#if outputStore}
-        <div class="output-anchors flex items-end">
-          <Anchor
-            id={key}
-            connections={[["output", key]]}
-            let:linked
-            let:connecting
-            let:hovering
-            {outputStore}
-            output />
-        </div>
-      {/if}
+      <slot name="body" />
+      <slot name="output" />
     </div>
   </div>
 </Node>

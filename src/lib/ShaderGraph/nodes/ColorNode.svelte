@@ -3,7 +3,7 @@
   import { Anchor, ColorPicker, generateInput, generateOutput } from "svelvet";
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
-  import NodeWrapper from "../_core/NodeWrapper.svelte";
+  import NodeWrapper from "../_core/GraphNode/NodeWrapper.svelte";
 
   export let connections = {
     color: [],
@@ -32,10 +32,11 @@
 </script>
 
 <NodeWrapper title="Color" position={{ x: 50, y: 400 }}>
-  <div class="node-body">
+  <div class="node-body" slot="body">
     <ColorPicker parameterStore={$inputs.color} />
   </div>
-  <div class="output-anchors">
+
+  <div class="output-anchors" slot="output">
     <div class="flex gap-1">
       <span>rgba</span>
       <Anchor
@@ -43,14 +44,6 @@
         outputStore={output}
         output
         connections={connections.color} />
-    </div>
-    <div class="flex gap-1">
-      <span>rgb</span>
-      <!-- <Anchor
-        id="color-anchor"
-        outputStore={output}
-        output
-        connections={connections.rgb} /> -->
     </div>
   </div>
 </NodeWrapper>
