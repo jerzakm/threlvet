@@ -2,13 +2,11 @@
   import { generateInput, generateOutput, Node } from "svelvet";
   import { Inputs } from ".";
   import TypedAnchor from "../TypedAnchor.svelte";
-  import { currentMaterial } from "$lib/materialStore";
-  import { matConfig } from "$lib/ui/debugStuff";
 
   export let title: string;
 
+  /** INPUT STUFF*/
   export let inputDef: any | undefined = undefined;
-
   $: initialData =
     inputDef &&
     inputDef.inputs &&
@@ -18,8 +16,10 @@
     });
 
   $: inputs = generateInput(initialData);
+  $: inputDef && inputs && generateOutput(inputs, inputDef.procesor);
 
-  $: output = inputDef && inputs && generateOutput(inputs, inputDef.procesor);
+  /** OUTPUT STUFF*/
+  export let outputDef: any | undefined = undefined;
 
   export let destroy: null | (() => void) = null;
 </script>
@@ -33,8 +33,8 @@
       {/if}
     </div>
     <div class="grid grid-cols-[2rem_1fr_2rem]">
-      <div class="flex flex-col gap-1">
-        {#if inputDef && output}
+      <div class="flex flex-col gap-1 -translate-x-6">
+        {#if inputDef}
           <Inputs>
             {#each inputDef.inputs as i}
               <TypedAnchor

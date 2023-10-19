@@ -1,17 +1,16 @@
 <script lang="ts">
+  import { matConfig } from "$lib/ui/debugStuff";
   import {
     Anchor,
     ColorPicker,
+    Edge,
     generateInput,
     generateOutput,
-    Edge,
   } from "svelvet";
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
   import { GraphNode, Outputs } from "../_core/GraphNode";
-  import { matConfig } from "$lib/ui/debugStuff";
-  import { get } from "svelte/store";
-  import { uiStores } from "$lib/ui/uiStores";
+  import { outputBuilder } from "../_core/GraphNode/inOutBuilder";
 
   export let connections = {
     color: [],
@@ -28,13 +27,18 @@
 
   const c = new Color();
 
-  $: inputs = generateInput(initialData);
   const procesor = (inputs) => {
     c.set(inputs.color);
     return color(c);
   };
 
-  $: output = generateOutput(inputs, procesor);
+  const inputs = generateInput(initialData);
+  const output = generateOutput(inputs, procesor);
+
+  const o = outputBuilder()
+    .add("color", "v4", color(c))
+    .procesor(procesor)
+    .build();
 </script>
 
 <GraphNode title="Color" position={{ x: 50, y: 400 }} {id}>

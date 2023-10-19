@@ -16,6 +16,6 @@
       }`}>
       <span class="uppercase text-xs">{type}</span>
     </div>
-    <span>{$$restProps.key}</span>
+    <span class="px-1">{$$restProps.key}</span>
   </div>
 </Anchor>
