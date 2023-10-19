@@ -1,3 +1,4 @@
+import { generateInput, generateOutput } from "svelvet";
 import type { NodeInOutType } from "../shaderNode";
 
 type InputAnchorDef = { key: string; type: NodeInOutType; default: any };
@@ -34,14 +35,23 @@ export const inputBuilder = () => {
 type ShaderNodeOutputDefinition = {
   inputs: InputAnchorDef[];
   procesor: Function;
+  processingStore: ReturnType<typeof generateInput>;
+  outputStore: ReturnType<typeof generateOutput>;
 };
 
 class OutputBuilder {
   private inputs: ShaderNodeOutputDefinition["inputs"] = [];
   private _procesor: Function = () => {};
+  private processingData: Record<string, string | number | boolean | object> =
+    {};
 
   add = (key: string, type: NodeInOutType, _default: any) => {
     this.inputs.push({ key, type, default: _default });
+    return this;
+  };
+
+  processingDataDependency = (processingDataDependency: any) => {
+    this.processingData = processingDataDependency;
     return this;
   };
 
@@ -50,8 +60,16 @@ class OutputBuilder {
     return this;
   };
 
-  build = (): ShaderNodeInputDefinition => {
-    return { inputs: this.inputs, procesor: this._procesor };
+  build = (): ShaderNodeOutputDefinition => {
+    const processingStore = generateInput(this.processingData);
+    //@ts-ignore
+    const outputStore = generateOutput(processingStore, this._procesor);
+    return {
+      inputs: this.inputs,
+      procesor: this._procesor,
+      outputStore,
+      processingStore,
+    };
   };
 }
 

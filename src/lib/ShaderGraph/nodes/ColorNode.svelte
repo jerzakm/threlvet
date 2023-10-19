@@ -21,7 +21,7 @@
 
   export let id: number | undefined = undefined;
 
-  const initialData = {
+  const processingData = {
     color: "#E94646",
   };
 
@@ -32,18 +32,16 @@
     return color(c);
   };
 
-  const inputs = generateInput(initialData);
-  const output = generateOutput(inputs, procesor);
-
-  const o = outputBuilder()
+  const { outputStore, processingStore } = outputBuilder()
     .add("color", "v4", color(c))
+    .processingDataDependency(processingData)
     .procesor(procesor)
     .build();
 </script>
 
 <GraphNode title="Color" position={{ x: 50, y: 400 }} {id}>
   <div class="node-body" slot="body">
-    <ColorPicker parameterStore={$inputs.color} />
+    <ColorPicker parameterStore={$processingStore.color} />
   </div>
 
   <Outputs slot="output">
@@ -51,7 +49,7 @@
       <span>rgba</span>
       <Anchor
         id="color"
-        outputStore={output}
+        {outputStore}
         output
         connections={connections.color}
         let:connecting
