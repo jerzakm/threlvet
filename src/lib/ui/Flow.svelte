@@ -21,8 +21,6 @@
     StandardNodeMaterial: StandardMaterialNode,
   };
 
-  console.log(nodeMap);
-
   // todo - better re-rendering when config changes
   let refreshKey = 0;
 </script>

@@ -11,7 +11,7 @@ type NodeDefinition = {
   icon?: string;
 };
 
-const fixedValueNodes: NodeDefinition[] = [
+const fixedValue: NodeDefinition[] = [
   {
     component: Float,
     name: "Float",
@@ -24,8 +24,29 @@ const fixedValueNodes: NodeDefinition[] = [
   },
 ];
 
+const groupDefinitions = [
+  {
+    name: "Fixed values",
+    key: "fixedValue",
+    icon: "",
+    description: "",
+  },
+  {
+    name: "Math",
+    key: "math",
+    icon: "",
+    description: "",
+  },
+  {
+    name: "Uniforms",
+    key: "uniforms",
+    icon: "",
+    description: "",
+  },
+];
+
 const nodeDefinitions = {
-  fixedValue: fixedValueNodes,
+  fixedValue,
 };
 
 const nodeMap: Record<string, any> = [...Object.values(nodeDefinitions)].reduce(
@@ -39,4 +60,4 @@ const nodeMap: Record<string, any> = [...Object.values(nodeDefinitions)].reduce(
   {}
 );
 
-export { nodeDefinitions, nodeMap };
+export { nodeDefinitions, nodeMap, groupDefinitions };

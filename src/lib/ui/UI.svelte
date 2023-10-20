@@ -2,6 +2,7 @@
   import MaterialsList from "./materialsList/MaterialsList.svelte";
   import { Layers3, Component, Workflow } from "lucide-svelte";
   import { uiStores } from "./uiStores";
+  import NodeHotbar from "./addingNodes/NodeHotbar.svelte";
 
   let openMenu = {
     materials: false,
@@ -25,7 +26,7 @@
   <div class="flex p-2 gap-4 relative">
     <div class="flex flex-col text-sm gap-2">
       <button
-        class="flex flex-col items-center border rounded-lg p-2 bg-white/90 shadow-md"
+        class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
         on:click={() => {
           shaderGraphOpen.set(!$shaderGraphOpen);
         }}>
@@ -33,13 +34,13 @@
         editor
       </button>
       <button
-        class="flex flex-col items-center border rounded-lg p-2 bg-white/90 shadow-md"
+        class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
         on:click={() => open("materials")}>
         <Component size={36} strokeWidth={1.2} />
         materials
       </button>
       <button
-        class="flex flex-col items-center border rounded-lg p-2 bg-white/90 shadow-md"
+        class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
         on:click={() => open("resources")}>
         <Layers3 size={36} strokeWidth={1.2} />
         resources
@@ -49,3 +50,5 @@
     <MaterialsList bind:open={openMenu.materials} />
   </div>
 </div>
+
+<NodeHotbar />
