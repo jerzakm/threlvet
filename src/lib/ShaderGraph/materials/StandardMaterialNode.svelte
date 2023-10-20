@@ -14,6 +14,7 @@
   const procesor = (inputs: any) => {
     material.colorNode = inputs.color;
     material.metalnessNode = inputs.metalness;
+    material.roughnessNode = inputs.roughness;
     // console.log(inputs.metalness);
 
     material.needsUpdate = true;
@@ -24,6 +25,7 @@
   const inputDef = inputBuilder()
     .add("color", "v4", vec4(1, 1, 1, 1))
     .add("metalness", "f", float(0))
+    .add("roughness", "f", float(0))
     .procesor(procesor)
     .build();
 </script>

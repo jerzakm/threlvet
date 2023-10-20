@@ -30,22 +30,22 @@
   // lock in place if it's the material
   const id = $$restProps.id;
   const isMaterial = id === "material";
-  $: materialPosition = isMaterial ? { position: { x: 700, y: 400 } } : {};
+  $: materialPosition = isMaterial ? { position: { x: 1000, y: 400 } } : {};
 
   // save node position to store
   let currentPosition: any;
 
-  // $: {
-  //   if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
-  //     if (
-  //       // todo better compare ?
-  //       JSON.stringify($materialDefinition.nodes[id]?.position) !==
-  //       JSON.stringify(currentPosition)
-  //     ) {
-  //       $materialDefinition.nodes[id].position = currentPosition;
-  //     }
-  //   }
-  // }
+  $: {
+    if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
+      if (
+        // todo better compare ?
+        JSON.stringify($materialDefinition.nodes[id]?.position) !==
+        JSON.stringify(currentPosition)
+      ) {
+        $materialDefinition.nodes[id].position = currentPosition;
+      }
+    }
+  }
 
   // re-initializing graph structure on crucial changes (output drops)
   const { shaderGraphNeedsRefresh } = uiStores;
@@ -86,6 +86,7 @@
       <div class="flex gap-1 justify-end translate-x-6 min-w-[1rem]">
         {#if outputDef && connections}
           {#each outputDef.outputs as o}
+            <!--  TODO allow multiple connections for outputs -->
             <TypedAnchor
               id={o.key}
               key={o.key}
@@ -94,7 +95,16 @@
               outputStore={outputDef.outputStore}
               output
               on:connection={({ detail }) => {
-                // console.log(detail);
+                // from
+                const [a1, fromAnchor, n1, fromNode] =
+                  detail.anchor.id.split(/[-/]/);
+                //to
+                const [a2, toAnchor, n2, toNode] =
+                  detail.connectedAnchor.id.split(/[-/]/);
+                // save data - only 1 connection per output for now.
+                $materialDefinition.nodes[fromNode].connections[fromAnchor] = [
+                  [toNode, toAnchor],
+                ];
               }}
               on:disconnection={(e) => {
                 const detail = e.detail;

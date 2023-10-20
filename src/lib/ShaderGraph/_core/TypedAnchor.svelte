@@ -6,9 +6,16 @@
   type $$Props = ComponentProps<Anchor> & { type: NodeInOutType };
 
   export let type: NodeInOutType;
+
+  // TODO allow multiple connections for outputs
 </script>
 
-<Anchor {...$$restProps} let:linked on:connection on:disconnection>
+<Anchor
+  {...$$restProps}
+  let:linked
+  on:connection
+  on:disconnection
+  multiple={false}>
   <div
     class={`flex gap-1 font-mono items-center ${
       $$restProps.output ? "flex-row-reverse" : ""

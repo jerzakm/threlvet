@@ -5,6 +5,7 @@
   import { Svelvet } from "svelvet";
   import { uiStores } from "./uiStores";
   import { ColorNode, Float } from "$lib/ShaderGraph/nodes";
+  import LocalStorageSaver from "./LocalStorageSaver.svelte";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -34,6 +35,7 @@
   on:mouseup={() => {
     if ($shaderGraphNeedsRefresh) {
       refreshKey++;
+      console.log("refresh");
       shaderGraphNeedsRefresh.set(false);
     }
   }} />
@@ -58,3 +60,5 @@
     </Svelvet>
   </div>
 {/if}
+
+<LocalStorageSaver />
