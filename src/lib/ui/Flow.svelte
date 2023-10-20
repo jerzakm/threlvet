@@ -4,7 +4,7 @@
 
   import { Svelvet } from "svelvet";
   import { uiStores } from "./uiStores";
-  import { ColorNode, Float } from "$lib/ShaderGraph/nodes";
+  import { nodeMap } from "$lib/ShaderGraph/nodes";
   import LocalStorageSaver from "./LocalStorageSaver.svelte";
 
   let width = window.innerWidth;
@@ -21,10 +21,7 @@
     StandardNodeMaterial: StandardMaterialNode,
   };
 
-  const nodes = {
-    ColorNode: ColorNode,
-    Float: Float,
-  };
+  console.log(nodeMap);
 
   // todo - better re-rendering when config changes
   let refreshKey = 0;
@@ -54,7 +51,7 @@
 
         {#each Object.keys($materialDefinition.nodes) as id}
           {@const node = $materialDefinition.nodes[id]}
-          <svelte:component this={nodes[node.type]} {...node} {id} />
+          <svelte:component this={nodeMap[node.type]} {...node} {id} />
         {/each}
       {/key}
     </Svelvet>
