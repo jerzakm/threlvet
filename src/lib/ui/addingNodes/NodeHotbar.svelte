@@ -51,6 +51,7 @@
         currentlyOpen = undefined;
         //    - node picked. Add it to graph somehow
         if (pickedNode) {
+          console.log("create a new node");
           //
         }
       }
@@ -69,9 +70,7 @@
     <div class=" grid grid-cols-5 gap-1">
       {#each groupNodes as node, i}
         <button
-          class={`relative backdrop-blur-sm h-20 w-20 border  flex items-center flex-col rounded-lg justify-center text-white hover:bg-white/10 duration-100 p-1 text-sm ${
-            true ? "bg-black/90 text-orange-300" : "bg-black/60"
-          }`}>
+          class={`relative backdrop-blur-sm h-20 w-20 border  flex items-center flex-col rounded-lg justify-center  hover:bg-white/10 duration-100 p-1 text-sm bg-black/90 text-orange-200`}>
           <span class="absolute top-1 left-2"> {nodeKeysOrder[i]} </span>
           <span class="text-center font-mono pt-2">
             {node.name}
@@ -85,8 +84,8 @@
       {@const isOpen = i == currentlyOpen}
       <div class="relative">
         <button
-          class={`relative backdrop-blur-sm h-20 w-20 border  flex items-center flex-col rounded-lg justify-center text-white hover:bg-white/10 duration-100 p-1 text-sm ${
-            isOpen ? "bg-black/90 text-orange-300" : "bg-black/60"
+          class={`relative backdrop-blur-sm h-20 w-20 border  flex items-center flex-col rounded-lg justify-center  hover:bg-white/10 duration-100 p-1 text-sm ${
+            isOpen ? "bg-black/90 text-orange-400" : "bg-black/60 text-white"
           }`}>
           <span class="absolute top-1 left-2"> {i + 1} </span>
           <span class="text-center font-mono pt-2">

@@ -6,7 +6,7 @@
   export type TreeItem = {
     name: string;
     icon?: Icon;
-
+    materialIndex: number;
     children?: TreeItem[];
   };
 
@@ -35,7 +35,7 @@
 
   <li class={level !== 1 ? "pl-4" : ""}>
     <button
-      class={`flex items-center gap-1 p-1 flex-col  ${
+      class={`flex items-center gap-1 p-1   ${
         $isSelected(itemId) ? "bg-blue-500/30" : ""
       }`}
       use:melt={$item({
@@ -46,8 +46,8 @@
       {#if icon === "folder" && hasChildren && $isExpanded(itemId)}
         <svelte:component this={icons["folderOpen"]} class="h-4 w-4" />
       {:else}
-        <div class="h-32 w-32 flex flex-col items-center justify-center">
-          <Sparkles class="w-20 h-20" />
+        <div class="h-5 w-5 flex flex-col items-center justify-center">
+          <Sparkles class="w-5 h-5" />
         </div>
       {/if}
 

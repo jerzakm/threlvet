@@ -8,14 +8,12 @@
   export let nodeTypeId: NodeTypeId;
 
   onMount(() => {
-    const existingNodes = Object.keys($materialDefinition.nodes);
-    const [n, nodeId] = node.id.split("-");
-
-    if (nodeId === "material") return;
-    if (existingNodes.includes(nodeId)) return;
-
-    console.log(
-      `should add a new node id: ${nodeId} of type ${nodeTypeId} now`
-    );
+    // const existingNodes = Object.keys($materialDefinition.nodes);
+    // const [n, nodeId] = node.id.split("-");
+    // if (nodeId === "material") return;
+    // if (existingNodes.includes(nodeId)) return;
+    // console.log(
+    //   `should add a new node id: ${nodeId} of type ${nodeTypeId} now`
+    // );
   });
 </script>

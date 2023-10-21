@@ -5,7 +5,7 @@
   import NodeHotbar from "./addingNodes/NodeHotbar.svelte";
 
   let openMenu = {
-    materials: false,
+    materials: true,
     resources: false,
   };
 
@@ -15,7 +15,11 @@
     openMenu[menu] = true;
   };
 
-  const { shaderGraphOpen } = uiStores;
+  const { shaderGraphOpen, needNewMaterial } = uiStores;
+
+  $: {
+    if ($needNewMaterial) openMenu.materials = true;
+  }
 </script>
 
 <div class="flex flex-col">
@@ -27,14 +31,6 @@
     <div class="flex flex-col text-sm gap-2">
       <button
         class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
-        on:click={() => {
-          shaderGraphOpen.set(!$shaderGraphOpen);
-        }}>
-        <Workflow size={36} strokeWidth={1.2} />
-        editor
-      </button>
-      <button
-        class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
         on:click={() => open("materials")}>
         <Component size={36} strokeWidth={1.2} />
         materials
@@ -44,6 +40,14 @@
         on:click={() => open("resources")}>
         <Layers3 size={36} strokeWidth={1.2} />
         resources
+      </button>
+      <button
+        class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
+        on:click={() => {
+          shaderGraphOpen.set(!$shaderGraphOpen);
+        }}>
+        <Workflow size={36} strokeWidth={1.2} />
+        editor
       </button>
     </div>
 

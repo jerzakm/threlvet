@@ -1,5 +1,6 @@
 import { writable } from "svelte/store";
 import type { NodeTypeId } from "../nodes";
+import type { MaterialTypeId } from "../materials";
 export type NodeInOutType =
   | "f"
   | "v2"
@@ -20,11 +21,14 @@ type NodeDefinition = {
 };
 
 type MaterialDefinition = {
-  material: "StandardNodeMaterial";
+  name: string;
+  material: MaterialTypeId;
   nodes: Record<string, NodeDefinition>;
 };
 
-export const materialDefinition = writable<MaterialDefinition | undefined>(
+export const activeMaterialDefinition = writable<number | undefined>(undefined);
+
+export const materialDefinition = writable<MaterialDefinition[] | undefined>(
   undefined
 );
 //   {

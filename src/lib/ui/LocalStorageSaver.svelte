@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { materialDefinition } from "$lib/ShaderGraph/_core/core";
+  import {
+    activeMaterialDefinition,
+    materialDefinition,
+  } from "$lib/ShaderGraph/_core/core";
   import { onMount } from "svelte";
   import { uiStores } from "./uiStores";
 
@@ -19,6 +22,8 @@
   onMount(() => {
     const loadedStorage = localStorage.getItem("threlte_material");
 
+    // if no previous config is loaded, open a window to create a new material
+
     // todo - different local storage behaviour between browsers
     if (
       loadedStorage !== null &&
@@ -27,7 +32,10 @@
     ) {
       const parsedStorage = JSON.parse(loadedStorage);
       materialDefinition.set(parsedStorage);
+      activeMaterialDefinition.set(0);
       shaderGraphNeedsRefresh.set(true);
+    } else {
+      uiStores.needNewMaterial.set(true);
     }
     initialized = true;
   });

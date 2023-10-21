@@ -2,6 +2,15 @@
   import { createDialog, melt, createRadioGroup } from "@melt-ui/svelte";
   import { X } from "lucide-svelte";
   import { fade } from "svelte/transition";
+  import { uiStores } from "../uiStores";
+  import type { MaterialTypeId } from "$lib/ShaderGraph/materials";
+  import { materialDefinition } from "$lib/ShaderGraph/_core/core";
+  import {
+    uniqueNamesGenerator,
+    adjectives,
+    colors,
+    animals,
+  } from "unique-names-generator";
 
   const {
     elements: {
@@ -21,21 +30,49 @@
   const {
     elements: { root, item, hiddenInput },
     helpers: { isChecked },
+    states,
   } = createRadioGroup({
-    defaultValue: "nodeStandardMaterial",
+    defaultValue: "StandardMaterialNode",
   });
 
-  const optionsArr = ["nodeStandardMaterial"];
+  const optionsArr: MaterialTypeId[] = ["StandardMaterialNode"];
 
+  let materialName = "your material name";
+
+  $: $open &&
+    (materialName = uniqueNamesGenerator({
+      dictionaries: [adjectives, animals],
+      separator: "-",
+    }));
+  const { value } = states;
+
+  // todo move out adding logic and make it better
   const createNewMaterial = () => {
-    console.log("creating new material..");
+    if (!Array.isArray($materialDefinition)) materialDefinition.set([]);
+
+    const material = {
+      name: materialName,
+      material: $value as MaterialTypeId,
+      nodes: {},
+    };
+
+    $materialDefinition?.push(material);
+    materialDefinition.set($materialDefinition);
   };
+
+  const { needNewMaterial } = uiStores;
+
+  $: {
+    if ($needNewMaterial) {
+      open.set(true);
+    }
+  }
 </script>
 
 <button
   use:melt={$trigger}
-  class="inline-flex items-center justify-center rounded-md border bg-orange-400/90 text-white px-2 py-2
-  font-medium leading-none shadow hover:opacity-75">
+  class="inline-flex items-center justify-center rounded-md border bg-orange-400/90 text-white px-1 py-1 text-sm
+   leading-none shadow hover:opacity-75">
   New material
 </button>
 
@@ -47,23 +84,23 @@
       transition:fade={{ duration: 150 }} />
     <div
       class="fixed left-[50%] top-[50%] z-50 max-h-[85vh] w-[90vw]
-            max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-white
-            p-6 shadow-lg"
+            max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-xl bg-black/70
+            p-6 shadow-lg text-white"
       use:melt={$content}>
-      <h2 use:melt={$title} class="m-0 text-lg font-medium text-black">
+      <h2 use:melt={$title} class="m-0 text-lg font-bold text-orange">
         Create a new material
       </h2>
 
       <fieldset class="mb-4 flex flex-col w-full mt-6">
-        <label class="-mb-1 text-black/80" for="name"> Name </label>
+        <label class=" text-orange/80" for="name"> Name </label>
         <input
           class="inline-flex h-8 w-full flex-1 items-center justify-center
-                    rounded-sm border border-solid px-3 leading-none text-black"
+                    rounded-sm border border-solid px-3 leading-none text-white bg-white/10"
           id="name"
-          value="Your material name" />
+          bind:value={materialName} />
       </fieldset>
 
-      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-zinc-600">
+      <p use:melt={$description} class="mb-5 mt-2 leading-normal text-white/80">
         Pick one of the following base materials
       </p>
 

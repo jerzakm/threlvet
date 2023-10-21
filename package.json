@@ -36,6 +36,7 @@
     "@types/three": "^0.157.0",
     "lucide-svelte": "^0.288.0",
     "svelvet": "^8.1.0",
-    "three": "^0.157.0"
+    "three": "^0.157.0",
+    "unique-names-generator": "^4.7.1"
   }
 }

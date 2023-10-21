@@ -3,7 +3,7 @@
   import { Inputs } from ".";
   import TypedAnchor from "../TypedAnchor.svelte";
   import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
-  import { materialDefinition } from "../core";
+  import { materialDefinition, activeMaterialDefinition } from "../core";
   import { uiStores } from "$lib/ui/uiStores";
   import { onMount } from "svelte";
   import SaveNewNode from "./SaveNewNode.svelte";
@@ -40,13 +40,21 @@
   let currentPosition: any;
 
   $: {
-    if (currentPosition && !isMaterial && $materialDefinition.nodes[id]) {
+    if (
+      currentPosition &&
+      !isMaterial &&
+      $activeMaterialDefinition &&
+      $materialDefinition &&
+      $materialDefinition[$activeMaterialDefinition].nodes[id]
+    ) {
       if (
         // todo better compare ?
-        JSON.stringify($materialDefinition.nodes[id]?.position) !==
-        JSON.stringify(currentPosition)
+        JSON.stringify(
+          $materialDefinition[$activeMaterialDefinition].nodes[id]?.position
+        ) !== JSON.stringify(currentPosition)
       ) {
-        $materialDefinition.nodes[id].position = currentPosition;
+        $materialDefinition[$activeMaterialDefinition].nodes[id].position =
+          currentPosition;
       }
     }
   }
@@ -110,9 +118,9 @@
                 const [a2, toAnchor, n2, toNode] =
                   detail.connectedAnchor.id.split(/[-/]/);
                 // save data - only 1 connection per output for now.
-                $materialDefinition.nodes[fromNode].connections[fromAnchor] = [
-                  [toNode, toAnchor],
-                ];
+                $materialDefinition[$activeMaterialDefinition].nodes[
+                  fromNode
+                ].connections[fromAnchor] = [[toNode, toAnchor]];
               }}
               on:disconnection={(e) => {
                 const detail = e.detail;
@@ -120,7 +128,9 @@
                   detail.anchor.id.split(/[-/]/);
                 //@ts-ignore
                 // this refreshes the material
-                $materialDefinition.nodes[nodeId].connections[anchorKey] = [];
+                $materialDefinition[$activeMaterialDefinition].nodes[
+                  nodeId
+                ].connections[anchorKey] = [];
                 shaderGraphNeedsRefresh.set(true);
               }} />
           {/each}

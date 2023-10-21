@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { materialDefinition } from "$lib/ShaderGraph/_core/core";
+  import {
+    activeMaterialDefinition,
+    materialDefinition,
+  } from "$lib/ShaderGraph/_core/core";
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
 
   import { Svelvet, Node } from "svelvet";
@@ -30,7 +33,6 @@
   on:mouseup={() => {
     if ($shaderGraphNeedsRefresh) {
       refreshKey++;
-      console.log("refresh");
       shaderGraphNeedsRefresh.set(false);
     }
   }} />
@@ -45,11 +47,15 @@
       theme="dark"
       edgeStyle="step">
       {#key refreshKey}
-        {#if $materialDefinition}
-          <svelte:component this={materials[$materialDefinition.material]} />
+        {#if $materialDefinition && $activeMaterialDefinition}
+          <svelte:component
+            this={materials[
+              $materialDefinition[$activeMaterialDefinition].material
+            ]} />
 
-          {#each Object.keys($materialDefinition.nodes) as id}
-            {@const node = $materialDefinition.nodes[id]}
+          {#each Object.keys($materialDefinition[$activeMaterialDefinition].nodes) as id}
+            {@const node =
+              $materialDefinition[$activeMaterialDefinition].nodes[id]}
             <svelte:component this={nodeMap[node.type]} {...node} {id} />
           {/each}
         {/if}
