@@ -37,7 +37,10 @@
 
   const optionsArr: MaterialTypeId[] = ["StandardMaterialNode"];
 
-  let materialName = "your material name";
+  let materialName = uniqueNamesGenerator({
+    dictionaries: [adjectives, animals],
+    separator: "-",
+  });
 
   $: $open &&
     (materialName = uniqueNamesGenerator({

@@ -33,7 +33,7 @@
   const refresh = debounce(() => {
     refreshKey++;
     shaderGraphNeedsRefresh.set(false);
-  }, 800);
+  }, 400);
 
   $: {
     // re-render on material change

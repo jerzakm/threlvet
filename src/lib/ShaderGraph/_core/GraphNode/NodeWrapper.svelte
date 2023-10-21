@@ -97,7 +97,7 @@
   <!-- NODE UI -->
   <div class="node flex flex-col gap-2 p-0 pb-2 relative">
     <div class="px-4 py-2 border-b border-b-white/20">
-      <span>{title} - {id}</span>
+      <span>{title}</span>
       {#if selected}
         <button
           class="absolute text-red-500 -right-7 -top-7 hover:bg-red-500 hover:text-white rounded-full"

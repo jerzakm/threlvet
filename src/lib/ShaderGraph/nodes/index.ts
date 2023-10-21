@@ -1,6 +1,9 @@
 import ColorNode from "./ColorNode.svelte";
 import Float from "./Float.svelte";
 import UVNode from "./common/UVNode.svelte";
+import Multiply from "./math/Multiply.svelte";
+import Sin from "./math/Sin.svelte";
+import TimeUniform from "./uniforms/TimeUniform.svelte";
 
 type NodeCategory = "fixedValue" | "math" | "uniforms" | "threeCommons";
 
@@ -25,13 +28,32 @@ const fixedValue = [
   },
 ] as const;
 
-const math = [] as const;
-const uniforms = [] as const;
+const math = [
+  {
+    component: Multiply,
+    name: "Multiply",
+    category: "math",
+  },
+  {
+    component: Sin,
+    name: "Sin",
+    category: "math",
+  },
+] as const;
+
+const uniforms = [
+  {
+    component: TimeUniform,
+    name: "TimeUniform",
+    category: "uniform",
+  },
+] as const;
+
 const threeCommons = [
   {
     component: UVNode,
     name: "UVNode",
-    category: "fixedValue",
+    category: "threeCommons",
   },
 ] as const;
 

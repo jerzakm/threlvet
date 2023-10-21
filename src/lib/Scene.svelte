@@ -4,6 +4,16 @@
   import { OrbitControls } from "@threlte/extras";
   import { DEG2RAD } from "three/src/math/MathUtils";
   import { DoubleSide } from "three";
+
+  let iTime = 0;
+
+  useFrame(() => {
+    iTime = Date.now();
+    if ($currentMaterial && $currentMaterial.uniforms.iTime) {
+      // console.log("update");
+      $currentMaterial.uniforms.iTime.value = Math.sin(iTime);
+    }
+  });
 </script>
 
 <T.PerspectiveCamera
@@ -12,7 +22,7 @@
   position.x={-5}
   position.y={5}
   position.z={-5}>
-  <OrbitControls enableDamping autoRotate autoRotateSpeed={0.3} />
+  <OrbitControls enableDamping autoRotate autoRotateSpeed={0.1} />
 </T.PerspectiveCamera>
 
 <T.Mesh position.y={1}>
@@ -25,7 +35,7 @@
   {/if}
 </T.Mesh>
 
-<!-- <T.AmbientLight intensity={0.1} /> -->
+<T.AmbientLight intensity={0.05} />
 <T.DirectionalLight
   position.x={15}
   position.y={15}
