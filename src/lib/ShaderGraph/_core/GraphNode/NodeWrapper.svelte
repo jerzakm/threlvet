@@ -12,12 +12,15 @@
   import SaveNewNode from "./SaveNewNode.svelte";
   import {
     deleteConnection,
+    deleteNode,
     makeNewConnection,
     saveProcessingData,
   } from "./nodeSaving";
+  import { X } from "lucide-svelte";
 
   export let title: string;
   export let nodeTypeId: NodeTypeId | "material";
+  export let isNewNode = false;
 
   // INPUT STUFF //
   export let inputDef: any | undefined = undefined;
@@ -35,7 +38,6 @@
   // OUTPUT STUFF //
   export let outputDef: ShaderNodeOutputDefinition | undefined = undefined;
   export let connections: any | undefined = undefined;
-  export let destroy: null | (() => void) = null;
 
   // POSITION //
   //    - lock in place if it's the material
@@ -72,16 +74,9 @@
   // PROCESSING DATA
   export let processingData: any | undefined = undefined;
 
-  let savedData = "";
   $: {
-    if (
-      id &&
-      processingData !== undefined &&
-      // todo better checking, rewrite, debounce
-      JSON.stringify(processingData) !== savedData
-    ) {
+    if (!isNewNode && processingData !== undefined) {
       saveProcessingData(id, processingData);
-      savedData = JSON.stringify(processingData);
     }
   }
 </script>
@@ -91,6 +86,7 @@
   {...$$restProps}
   {...materialPosition}
   let:node
+  let:selected
   locked={id === "material"}
   bind:position={currentPosition}
   drop={$newNode ? "cursor" : undefined}>
@@ -99,11 +95,15 @@
   {/if}
 
   <!-- NODE UI -->
-  <div class="node flex flex-col gap-2 p-0 pb-2">
+  <div class="node flex flex-col gap-2 p-0 pb-2 relative">
     <div class="px-4 py-2 border-b border-b-white/20">
-      <span>{title}</span>
-      {#if destroy}
-        <button class="destroy" on:click={destroy}>X</button>
+      <span>{title} - {id}</span>
+      {#if selected}
+        <button
+          class="absolute text-red-500 -right-7 -top-7 hover:bg-red-500 hover:text-white rounded-full"
+          on:click={() => deleteNode(id)}>
+          <X class="w-8 h-8" />
+        </button>
       {/if}
     </div>
     <div class="flex">

@@ -18,9 +18,10 @@
   };
 
   const procesor = (inputs: typeof processingData) => {
+    processingData = inputs;
     return float(inputs.float);
   };
-  const outputDef = outputBuilder()
+  const outputDef: any = outputBuilder()
     .add("float", "f", float(1))
     .processingDataDependency(processingData)
     .procesor(procesor)
@@ -40,6 +41,7 @@
   {id}
   {outputDef}
   {connections}
+  {processingData}
   nodeTypeId={"Float"}>
   <Slider
     parameterStore={$processingStore.float}

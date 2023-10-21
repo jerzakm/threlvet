@@ -1,6 +1,7 @@
 <script lang="ts">
   import { newNode } from "$lib/ShaderGraph/_core/core";
   import { nodeDefinitions, groupDefinitions } from "$lib/ShaderGraph/nodes";
+  import { uuidv4 } from "$lib/util";
   import { uiStores } from "../uiStores";
 
   const { shaderGraphOpen } = uiStores;
@@ -54,7 +55,10 @@
         if (pickedNode) {
           // console.log("create a new node");
           // console.log(pickedNode);
-          newNode.set(pickedNode.name);
+          newNode.set({
+            type: pickedNode.name,
+            id: uuidv4(),
+          });
           //
         }
       }

@@ -32,7 +32,12 @@ export const materialDefinition = writable<MaterialDefinition[] | undefined>(
   undefined
 );
 
-export const newNode = writable<NodeTypeId | undefined>(undefined);
+export type NewNode = {
+  id: string;
+  type: NodeTypeId;
+};
+
+export const newNode = writable<NewNode | undefined>(undefined);
 
 //   {
 //   material: "StandardNodeMaterial",

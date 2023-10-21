@@ -1,7 +1,12 @@
 import { get } from "svelte/store";
 import { activeMaterialDefinition, materialDefinition } from "../core";
+import { uiStores } from "$lib/ui/uiStores";
+import equal from "fast-deep-equal";
 
 // todo full rewrite, derived
+// use a Map for nodes instead of an object
+
+const { shaderGraphNeedsRefresh } = uiStores;
 
 const saveMaterials = () => {
   materialDefinition.set(get(materialDefinition));
@@ -13,8 +18,6 @@ export const makeNewConnection = (
   toNode: string,
   toAnchor: string
 ) => {
-  console.log("making connection");
-
   const def = get(materialDefinition);
   const mIndex = get(activeMaterialDefinition) || 0;
   if (def) {
@@ -37,18 +40,34 @@ export const deleteConnection = (fromNode: string, fromAnchor: string) => {
   }
 
   saveMaterials();
+  shaderGraphNeedsRefresh.set(true);
 };
 
 export const saveProcessingData = (nodeId: string, processingData: any) => {
-  console.log(nodeId, processingData);
+  const def = get(materialDefinition);
+  const mIndex = get(activeMaterialDefinition) || 0;
+
+  if (!def) return;
+  if (!def[mIndex].nodes[nodeId]) return;
+
+  const isEqual = equal(
+    def[mIndex].nodes[nodeId].processingData,
+    processingData
+  );
+
+  if (!isEqual) {
+    def[mIndex].nodes[nodeId].processingData = processingData;
+    saveMaterials();
+  }
+};
+
+export const deleteNode = (nodeId: string) => {
   const def = get(materialDefinition);
   const mIndex = get(activeMaterialDefinition) || 0;
   if (def) {
-    if (!def[mIndex].nodes[nodeId].processingData)
-      def[mIndex].nodes[nodeId].processingData = {};
-    //@ts-ignore
-    def[mIndex].nodes[nodeId].processingData = processingData;
+    console.log({ mIndex, nodeId });
+    delete def[mIndex].nodes[nodeId];
   }
-
+  shaderGraphNeedsRefresh.set(true);
   saveMaterials();
 };
