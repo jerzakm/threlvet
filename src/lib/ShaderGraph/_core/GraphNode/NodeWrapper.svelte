@@ -10,12 +10,16 @@
   import TypedAnchor from "../TypedAnchor.svelte";
   import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
   import SaveNewNode from "./SaveNewNode.svelte";
-  import { deleteConnection, makeNewConnection } from "./connections";
+  import {
+    deleteConnection,
+    makeNewConnection,
+    saveProcessingData,
+  } from "./nodeSaving";
 
   export let title: string;
   export let nodeTypeId: NodeTypeId | "material";
 
-  /** INPUT STUFF*/
+  // INPUT STUFF //
   export let inputDef: any | undefined = undefined;
   $: initialData =
     inputDef &&
@@ -28,20 +32,19 @@
   $: inputs = generateInput(initialData);
   $: inputDef && inputs && generateOutput(inputs, inputDef.procesor);
 
-  /** OUTPUT STUFF*/
+  // OUTPUT STUFF //
   export let outputDef: ShaderNodeOutputDefinition | undefined = undefined;
   export let connections: any | undefined = undefined;
-
   export let destroy: null | (() => void) = null;
 
-  // lock in place if it's the material
+  // POSITION //
+  //    - lock in place if it's the material
   const id = $$restProps.id;
   const isMaterial = id === "material";
   $: materialPosition = isMaterial ? { position: { x: 1000, y: 400 } } : {};
 
-  // save node position to store
+  //    - save node position to store
   let currentPosition: any;
-
   $: {
     if (
       currentPosition &&
@@ -65,6 +68,22 @@
 
   // re-initializing graph structure on crucial changes (output drops)
   const { shaderGraphNeedsRefresh } = uiStores;
+
+  // PROCESSING DATA
+  export let processingData: any | undefined = undefined;
+
+  let savedData = "";
+  $: {
+    if (
+      id &&
+      processingData !== undefined &&
+      // todo better checking, rewrite, debounce
+      JSON.stringify(processingData) !== savedData
+    ) {
+      saveProcessingData(id, processingData);
+      savedData = JSON.stringify(processingData);
+    }
+  }
 </script>
 
 <Node
@@ -75,9 +94,13 @@
   locked={id === "material"}
   bind:position={currentPosition}
   drop={$newNode ? "cursor" : undefined}>
-  <SaveNewNode {node} {nodeTypeId} />
+  {#if nodeTypeId !== "material"}
+    <SaveNewNode {node} {nodeTypeId} />
+  {/if}
+
+  <!-- NODE UI -->
   <div class="node flex flex-col gap-2 p-0 pb-2">
-    <div class="header px-4 py-2">
+    <div class="px-4 py-2 border-b border-b-white/20">
       <span>{title}</span>
       {#if destroy}
         <button class="destroy" on:click={destroy}>X</button>

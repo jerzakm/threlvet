@@ -16,12 +16,13 @@
   export let position = { x: 0, y: 0 };
 
   export let processingData = {
-    color: "#E94646",
+    color: "#FFFFFF",
   };
 
   const c = new Color();
 
   const procesor = (inputs: typeof processingData) => {
+    processingData = inputs;
     c.set(inputs.color);
     return color(c);
   };
@@ -41,6 +42,7 @@
   {position}
   {id}
   {outputDef}
+  {processingData}
   {connections}
   nodeTypeId={"ColorNode"}>
   <ColorPicker parameterStore={$processingStore.color} />

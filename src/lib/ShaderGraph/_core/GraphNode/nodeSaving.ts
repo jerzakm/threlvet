@@ -38,3 +38,17 @@ export const deleteConnection = (fromNode: string, fromAnchor: string) => {
 
   saveMaterials();
 };
+
+export const saveProcessingData = (nodeId: string, processingData: any) => {
+  console.log(nodeId, processingData);
+  const def = get(materialDefinition);
+  const mIndex = get(activeMaterialDefinition) || 0;
+  if (def) {
+    if (!def[mIndex].nodes[nodeId].processingData)
+      def[mIndex].nodes[nodeId].processingData = {};
+    //@ts-ignore
+    def[mIndex].nodes[nodeId].processingData = processingData;
+  }
+
+  saveMaterials();
+};

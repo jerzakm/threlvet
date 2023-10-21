@@ -28,6 +28,8 @@
   // todo - better re-rendering when config changes
   let refreshKey = 0;
 
+  $: $activeMaterialDefinition !== undefined && refreshKey++;
+
   // $: console.log($materialDefinition);
   // $: console.log($activeMaterialDefinition);
 

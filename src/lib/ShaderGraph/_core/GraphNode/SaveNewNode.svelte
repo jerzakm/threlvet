@@ -6,10 +6,9 @@
     newNode,
   } from "../core";
   import type { NodeTypeId } from "$lib/ShaderGraph/nodes";
-  import type { Node } from "svelvet";
   import { get } from "svelte/store";
 
-  export let node: Node;
+  export let node: any;
   export let nodeTypeId: NodeTypeId;
 
   onMount(() => {
