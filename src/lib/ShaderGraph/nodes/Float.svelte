@@ -34,7 +34,13 @@
   $: min = -max;
 </script>
 
-<GraphNode title="Float" {position} {id} {outputDef} {connections}>
+<GraphNode
+  title="Float"
+  {position}
+  {id}
+  {outputDef}
+  {connections}
+  nodeTypeId={"Float"}>
   <Slider
     parameterStore={$processingStore.float}
     {step}

@@ -13,7 +13,6 @@
   };
 
   export let id: number | undefined = undefined;
-
   export let position = { x: 0, y: 0 };
 
   export let processingData = {
@@ -37,6 +36,12 @@
   const { processingStore } = outputDef;
 </script>
 
-<GraphNode title="Color" {position} {id} {outputDef} {connections}>
+<GraphNode
+  title="Color"
+  {position}
+  {id}
+  {outputDef}
+  {connections}
+  nodeTypeId={"ColorNode"}>
   <ColorPicker parameterStore={$processingStore.color} />
 </GraphNode>

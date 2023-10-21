@@ -1,4 +1,5 @@
 import { writable } from "svelte/store";
+import type { NodeTypeId } from "../nodes";
 export type NodeInOutType =
   | "f"
   | "v2"
@@ -11,7 +12,21 @@ export type NodeInOutType =
 
 export const currentMaterial = writable<any>(undefined);
 
-export const materialDefinition = writable<any>();
+type NodeDefinition = {
+  type: NodeTypeId;
+  connections: Record<string, any[]>;
+  position: { x: number; y: number };
+  processingData: Record<string, any>;
+};
+
+type MaterialDefinition = {
+  material: "StandardNodeMaterial";
+  nodes: Record<string, NodeDefinition>;
+};
+
+export const materialDefinition = writable<MaterialDefinition | undefined>(
+  undefined
+);
 //   {
 //   material: "StandardNodeMaterial",
 //   nodes: {

@@ -8,7 +8,7 @@
   let initialized = false;
 
   $: {
-    if (initialized) {
+    if (initialized && $materialDefinition) {
       localStorage.setItem(
         "threlte_material",
         JSON.stringify($materialDefinition)
@@ -19,9 +19,13 @@
   onMount(() => {
     const loadedStorage = localStorage.getItem("threlte_material");
 
-    if (loadedStorage) {
+    // todo - different local storage behaviour between browsers
+    if (
+      loadedStorage !== null &&
+      loadedStorage !== undefined &&
+      loadedStorage !== "undefined"
+    ) {
       const parsedStorage = JSON.parse(loadedStorage);
-
       materialDefinition.set(parsedStorage);
       shaderGraphNeedsRefresh.set(true);
     }

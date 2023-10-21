@@ -1,7 +1,7 @@
 import ColorNode from "./ColorNode.svelte";
 import Float from "./Float.svelte";
 
-type NodeCategory = "fixedValue" | "math";
+type NodeCategory = "fixedValue" | "math" | "uniforms";
 
 type NodeDefinition = {
   component: any;
@@ -11,7 +11,7 @@ type NodeDefinition = {
   icon?: string;
 };
 
-const fixedValue: NodeDefinition[] = [
+const fixedValue = [
   {
     component: Float,
     name: "Float",
@@ -22,9 +22,17 @@ const fixedValue: NodeDefinition[] = [
     name: "ColorNode",
     category: "fixedValue",
   },
-];
+] as const;
 
-const groupDefinitions = [
+const math = [] as const;
+const uniforms = [] as const;
+
+const groupDefinitions: {
+  name: string;
+  key: NodeCategory;
+  icon?: string;
+  description?: "";
+}[] = [
   {
     name: "Fixed values",
     key: "fixedValue",
@@ -43,11 +51,16 @@ const groupDefinitions = [
     icon: "",
     description: "",
   },
-];
+] as const;
 
 const nodeDefinitions = {
   fixedValue,
+  math,
+  uniforms,
 };
+
+export type NodeTypeId =
+  (typeof nodeDefinitions)[keyof typeof nodeDefinitions][number]["name"];
 
 const nodeMap: Record<string, any> = [...Object.values(nodeDefinitions)].reduce(
   (map: any, nodesGroup) => {

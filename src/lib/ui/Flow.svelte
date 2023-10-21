@@ -2,7 +2,7 @@
   import { materialDefinition } from "$lib/ShaderGraph/_core/core";
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
 
-  import { Svelvet } from "svelvet";
+  import { Svelvet, Node } from "svelvet";
   import { uiStores } from "./uiStores";
   import { nodeMap } from "$lib/ShaderGraph/nodes";
   import LocalStorageSaver from "./LocalStorageSaver.svelte";
@@ -45,12 +45,14 @@
       theme="dark"
       edgeStyle="step">
       {#key refreshKey}
-        <svelte:component this={materials[$materialDefinition.material]} />
+        {#if $materialDefinition}
+          <svelte:component this={materials[$materialDefinition.material]} />
 
-        {#each Object.keys($materialDefinition.nodes) as id}
-          {@const node = $materialDefinition.nodes[id]}
-          <svelte:component this={nodeMap[node.type]} {...node} {id} />
-        {/each}
+          {#each Object.keys($materialDefinition.nodes) as id}
+            {@const node = $materialDefinition.nodes[id]}
+            <svelte:component this={nodeMap[node.type]} {...node} {id} />
+          {/each}
+        {/if}
       {/key}
     </Svelvet>
   </div>

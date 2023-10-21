@@ -30,4 +30,8 @@
     .build();
 </script>
 
-<GraphNode title="StandardNodeMaterial" id="material" {inputDef} />
+<GraphNode
+  title="StandardNodeMaterial"
+  id="material"
+  {inputDef}
+  nodeTypeId={"material"} />

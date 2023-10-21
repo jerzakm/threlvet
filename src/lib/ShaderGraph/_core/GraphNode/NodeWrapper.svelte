@@ -5,8 +5,12 @@
   import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
   import { materialDefinition } from "../core";
   import { uiStores } from "$lib/ui/uiStores";
+  import { onMount } from "svelte";
+  import SaveNewNode from "./SaveNewNode.svelte";
+  import type { NodeTypeId } from "$lib/ShaderGraph/nodes";
 
   export let title: string;
+  export let nodeTypeId: NodeTypeId | "material";
 
   /** INPUT STUFF*/
   export let inputDef: any | undefined = undefined;
@@ -49,14 +53,20 @@
 
   // re-initializing graph structure on crucial changes (output drops)
   const { shaderGraphNeedsRefresh } = uiStores;
+
+  onMount(() => {
+    // console.log("mountedd");
+  });
 </script>
 
 <Node
   useDefaults
   {...$$restProps}
   {...materialPosition}
+  let:node
   locked={id === "material"}
   bind:position={currentPosition}>
+  <SaveNewNode {node} {nodeTypeId} />
   <div class="node flex flex-col gap-2 p-0 pb-2">
     <div class="header px-4 py-2">
       <span>{title}</span>
@@ -67,16 +77,14 @@
     <div class="flex">
       <div class="flex flex-col gap-1 -translate-x-6 min-w-[1rem]">
         {#if inputDef}
-          <Inputs>
-            {#each inputDef.inputs as i}
-              <TypedAnchor
-                id={i.key}
-                key={i.key}
-                input
-                inputsStore={inputs}
-                type={i.type} />
-            {/each}
-          </Inputs>
+          {#each inputDef.inputs as i}
+            <TypedAnchor
+              id={i.key}
+              key={i.key}
+              input
+              inputsStore={inputs}
+              type={i.type} />
+          {/each}
         {/if}
       </div>
       <div class="flex flex-col items-center justify-center flex-1">
