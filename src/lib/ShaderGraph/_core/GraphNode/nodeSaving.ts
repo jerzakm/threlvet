@@ -41,6 +41,9 @@ export const deleteConnection = (fromNode: string, fromAnchor: string) => {
 
   saveMaterials();
   shaderGraphNeedsRefresh.set(true);
+  // setTimeout(() => {
+
+  // }, 100);
 };
 
 export const saveProcessingData = (nodeId: string, processingData: any) => {

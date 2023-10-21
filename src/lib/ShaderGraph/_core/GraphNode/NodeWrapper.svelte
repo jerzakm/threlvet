@@ -123,16 +123,16 @@
         <slot />
       </div>
 
-      <div class="flex gap-1 justify-end translate-x-6 min-w-[1rem]">
+      <div class="flex flex-col gap-1 items-end translate-x-6 min-w-[1rem]">
         {#if outputDef && connections}
           {#each outputDef.outputs as o}
             <!--  TODO allow multiple connections for outputs -->
             <TypedAnchor
               id={o.key}
               key={o.key}
-              connections={connections[o.key]}
+              connections={connections[o.key] ? connections[o.key] : []}
               type={o.type}
-              outputStore={outputDef.outputStore}
+              outputStore={o.default}
               output
               on:connection={({ detail }) => {
                 // from
@@ -150,7 +150,6 @@
                   detail.anchor.id.split(/[-/]/);
 
                 deleteConnection(nodeId, anchorKey);
-                shaderGraphNeedsRefresh.set(true);
               }} />
           {/each}
         {/if}

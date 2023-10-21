@@ -10,6 +10,7 @@
   import { uiStores } from "./uiStores";
   import { nodeMap } from "$lib/ShaderGraph/nodes";
   import LocalStorageSaver from "./LocalStorageSaver.svelte";
+  import { debounce } from "$lib/util";
 
   let width = window.innerWidth;
   let height = window.innerHeight;
@@ -27,16 +28,21 @@
 
   // todo - better re-rendering when config changes
   let refreshKey = 0;
+  let mouseIsDown = false;
+
+  const refresh = debounce(() => {
+    refreshKey++;
+    shaderGraphNeedsRefresh.set(false);
+  }, 800);
+
   $: {
     // re-render on material change
     if (
       $activeMaterialDefinition !== undefined &&
-      refreshKey > 0 &&
-      $shaderGraphNeedsRefresh
+      $shaderGraphNeedsRefresh &&
+      !mouseIsDown
     ) {
-      console.log("refresh");
-      refreshKey++;
-      shaderGraphNeedsRefresh.set(false);
+      refresh();
     }
   }
 
@@ -45,10 +51,11 @@
 
 <svelte:window
   on:resize={resize}
+  on:mousedown={() => (mouseIsDown = true)}
   on:mouseup={() => {
+    mouseIsDown = false;
     if ($shaderGraphNeedsRefresh) {
-      refreshKey++;
-      shaderGraphNeedsRefresh.set(false);
+      refresh();
     }
   }} />
 

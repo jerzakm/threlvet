@@ -3,6 +3,7 @@
   import { outputBuilder } from "$lib/ShaderGraph/_core/GraphNode/inOutBuilder";
   import { float, uv } from "three/examples/jsm/nodes/Nodes";
   import { Slider } from "svelvet";
+  import { writable } from "svelte/store";
 
   export let connections = {};
 
@@ -18,8 +19,10 @@
   const outputDef: any = outputBuilder()
     .add("uv", "v2", uv())
     .processingDataDependency(processingData)
-    .procesor(procesor)
+    // .procesor(procesor)
     .build();
+
+  outputDef.outputStore = writable(uv());
 </script>
 
 <GraphNode
