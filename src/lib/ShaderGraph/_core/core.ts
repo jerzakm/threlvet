@@ -15,9 +15,9 @@ export const currentMaterial = writable<any>(undefined);
 
 type NodeDefinition = {
   type: NodeTypeId;
-  connections: Record<string, any[]>;
+  connections?: Record<string, any[]>;
   position: { x: number; y: number };
-  processingData: Record<string, any>;
+  processingData?: Record<string, any>;
 };
 
 type MaterialDefinition = {
@@ -31,6 +31,9 @@ export const activeMaterialDefinition = writable<number | undefined>(undefined);
 export const materialDefinition = writable<MaterialDefinition[] | undefined>(
   undefined
 );
+
+export const newNode = writable<NodeTypeId | undefined>(undefined);
+
 //   {
 //   material: "StandardNodeMaterial",
 //   nodes: {

@@ -57,7 +57,7 @@
           <li>
             <button
               class={`text-xs flex gap-1 items-center px-1 py-0 border border-white/20 w-full ${
-                $activeMaterialDefinition === index ? "bg-orange" : ""
+                $activeMaterialDefinition === index ? "bg-orange/60" : ""
               }`}
               on:click={() => {
                 activeMaterialDefinition.set(index);

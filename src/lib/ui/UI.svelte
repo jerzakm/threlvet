@@ -5,7 +5,7 @@
   import NodeHotbar from "./addingNodes/NodeHotbar.svelte";
 
   let openMenu = {
-    materials: true,
+    materials: false,
     resources: false,
   };
 

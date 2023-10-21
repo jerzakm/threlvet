@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { newNode } from "$lib/ShaderGraph/_core/core";
   import { nodeDefinitions, groupDefinitions } from "$lib/ShaderGraph/nodes";
   import { uiStores } from "../uiStores";
 
@@ -51,7 +52,9 @@
         currentlyOpen = undefined;
         //    - node picked. Add it to graph somehow
         if (pickedNode) {
-          console.log("create a new node");
+          // console.log("create a new node");
+          // console.log(pickedNode);
+          newNode.set(pickedNode.name);
           //
         }
       }

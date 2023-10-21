@@ -1,13 +1,16 @@
 <script lang="ts">
+  import type { NodeTypeId } from "$lib/ShaderGraph/nodes";
+  import { uiStores } from "$lib/ui/uiStores";
   import { generateInput, generateOutput, Node } from "svelvet";
-  import { Inputs } from ".";
+  import {
+    activeMaterialDefinition,
+    materialDefinition,
+    newNode,
+  } from "../core";
   import TypedAnchor from "../TypedAnchor.svelte";
   import type { ShaderNodeOutputDefinition } from "./inOutBuilder";
-  import { materialDefinition, activeMaterialDefinition } from "../core";
-  import { uiStores } from "$lib/ui/uiStores";
-  import { onMount } from "svelte";
   import SaveNewNode from "./SaveNewNode.svelte";
-  import type { NodeTypeId } from "$lib/ShaderGraph/nodes";
+  import { deleteConnection, makeNewConnection } from "./connections";
 
   export let title: string;
   export let nodeTypeId: NodeTypeId | "material";
@@ -43,7 +46,7 @@
     if (
       currentPosition &&
       !isMaterial &&
-      $activeMaterialDefinition &&
+      $activeMaterialDefinition !== undefined &&
       $materialDefinition &&
       $materialDefinition[$activeMaterialDefinition].nodes[id]
     ) {
@@ -55,16 +58,13 @@
       ) {
         $materialDefinition[$activeMaterialDefinition].nodes[id].position =
           currentPosition;
+        materialDefinition.set($materialDefinition);
       }
     }
   }
 
   // re-initializing graph structure on crucial changes (output drops)
   const { shaderGraphNeedsRefresh } = uiStores;
-
-  onMount(() => {
-    // console.log("mountedd");
-  });
 </script>
 
 <Node
@@ -73,7 +73,8 @@
   {...materialPosition}
   let:node
   locked={id === "material"}
-  bind:position={currentPosition}>
+  bind:position={currentPosition}
+  drop={$newNode ? "cursor" : undefined}>
   <SaveNewNode {node} {nodeTypeId} />
   <div class="node flex flex-col gap-2 p-0 pb-2">
     <div class="header px-4 py-2">
@@ -118,19 +119,14 @@
                 const [a2, toAnchor, n2, toNode] =
                   detail.connectedAnchor.id.split(/[-/]/);
                 // save data - only 1 connection per output for now.
-                $materialDefinition[$activeMaterialDefinition].nodes[
-                  fromNode
-                ].connections[fromAnchor] = [[toNode, toAnchor]];
+                makeNewConnection(fromNode, fromAnchor, toNode, toAnchor);
               }}
               on:disconnection={(e) => {
                 const detail = e.detail;
                 const [anchor, anchorKey, node, nodeId] =
                   detail.anchor.id.split(/[-/]/);
-                //@ts-ignore
-                // this refreshes the material
-                $materialDefinition[$activeMaterialDefinition].nodes[
-                  nodeId
-                ].connections[anchorKey] = [];
+
+                deleteConnection(nodeId, anchorKey);
                 shaderGraphNeedsRefresh.set(true);
               }} />
           {/each}

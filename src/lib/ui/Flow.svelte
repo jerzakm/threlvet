@@ -2,6 +2,7 @@
   import {
     activeMaterialDefinition,
     materialDefinition,
+    newNode,
   } from "$lib/ShaderGraph/_core/core";
   import StandardMaterialNode from "$lib/ShaderGraph/materials/StandardMaterialNode.svelte";
 
@@ -21,11 +22,18 @@
   };
 
   const materials = {
-    StandardNodeMaterial: StandardMaterialNode,
+    StandardMaterialNode: StandardMaterialNode,
   };
 
   // todo - better re-rendering when config changes
   let refreshKey = 0;
+
+  // $: console.log($materialDefinition);
+  // $: console.log($activeMaterialDefinition);
+
+  // $: {
+
+  // }
 </script>
 
 <svelte:window
@@ -47,17 +55,22 @@
       theme="dark"
       edgeStyle="step">
       {#key refreshKey}
-        {#if $materialDefinition && $activeMaterialDefinition}
+        {#if $materialDefinition && $activeMaterialDefinition !== undefined}
+          <!-- MATERIAL -->
           <svelte:component
             this={materials[
               $materialDefinition[$activeMaterialDefinition].material
             ]} />
-
+          <!-- NODES -->
           {#each Object.keys($materialDefinition[$activeMaterialDefinition].nodes) as id}
             {@const node =
               $materialDefinition[$activeMaterialDefinition].nodes[id]}
             <svelte:component this={nodeMap[node.type]} {...node} {id} />
           {/each}
+          <!-- NEW NODE -->
+          {#if $newNode}
+            <svelte:component this={nodeMap[$newNode]} />
+          {/if}
         {/if}
       {/key}
     </Svelvet>

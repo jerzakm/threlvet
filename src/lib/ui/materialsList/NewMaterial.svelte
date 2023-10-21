@@ -71,7 +71,7 @@
 
 <button
   use:melt={$trigger}
-  class="inline-flex items-center justify-center rounded-md border bg-orange-400/90 text-white px-1 py-1 text-sm
+  class="inline-flex items-center justify-center bg-orange-400/90 text-white px-2 py-1 text-sm
    leading-none shadow hover:opacity-75">
   New material
 </button>
