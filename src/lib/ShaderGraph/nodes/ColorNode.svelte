@@ -2,8 +2,8 @@
   import { ColorPicker } from "svelvet";
   import { Color } from "three";
   import { color } from "three/examples/jsm/nodes/Nodes";
-  import { GraphNode } from "../_core/GraphNode";
-  import { outputBuilder } from "../_core/GraphNode/inOutBuilder";
+  import { GraphNode } from "$lib/ShaderGraph/_core/GraphNode";
+  import { outputBuilder } from "$lib/ShaderGraph/_core/GraphNode/inOutBuilder";
 
   export let connections = {
     color: [],

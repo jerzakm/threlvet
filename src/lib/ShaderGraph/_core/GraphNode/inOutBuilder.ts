@@ -56,6 +56,7 @@ class OutputBuilder {
   };
 
   procesor = (f: Function) => {
+    if (!this.processingData) this.processingData = {};
     this._procesor = f;
     return this;
   };

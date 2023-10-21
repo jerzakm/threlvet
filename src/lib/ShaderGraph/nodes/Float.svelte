@@ -1,13 +1,11 @@
 <script lang="ts">
-  import { writable } from "svelte/store";
-  import { GraphNode } from "../_core/GraphNode";
-  import { outputBuilder } from "../_core/GraphNode/inOutBuilder";
+  import { GraphNode } from "$lib/ShaderGraph/_core/GraphNode";
+  import { outputBuilder } from "$lib/ShaderGraph/_core/GraphNode/inOutBuilder";
   import { float } from "three/examples/jsm/nodes/Nodes";
+  import * as x from "three/examples/jsm/nodes/Nodes";
   import { Slider } from "svelvet";
 
-  export let connections = {
-    frames: [],
-  };
+  export let connections = {};
 
   export let id: number | undefined = undefined;
 

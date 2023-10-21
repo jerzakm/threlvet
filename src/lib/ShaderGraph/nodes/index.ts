@@ -1,7 +1,8 @@
 import ColorNode from "./ColorNode.svelte";
 import Float from "./Float.svelte";
+import UVNode from "./common/UVNode.svelte";
 
-type NodeCategory = "fixedValue" | "math" | "uniforms";
+type NodeCategory = "fixedValue" | "math" | "uniforms" | "threeCommons";
 
 type NodeDefinition = {
   component: any;
@@ -26,6 +27,13 @@ const fixedValue = [
 
 const math = [] as const;
 const uniforms = [] as const;
+const threeCommons = [
+  {
+    component: UVNode,
+    name: "UVNode",
+    category: "fixedValue",
+  },
+] as const;
 
 const groupDefinitions: {
   name: string;
@@ -46,6 +54,12 @@ const groupDefinitions: {
     description: "",
   },
   {
+    name: "Three commons",
+    key: "threeCommons",
+    icon: "",
+    description: "",
+  },
+  {
     name: "Uniforms",
     key: "uniforms",
     icon: "",
@@ -57,6 +71,7 @@ const nodeDefinitions = {
   fixedValue,
   math,
   uniforms,
+  threeCommons,
 };
 
 export type NodeTypeId =
