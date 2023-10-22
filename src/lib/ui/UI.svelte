@@ -35,7 +35,7 @@
         <Component size={36} strokeWidth={1.2} />
         materials
       </button>
-      <button
+      <!-- <button
         class="flex flex-col items-center border rounded-lg p-2 bg-black/40 shadow-md border-white/40"
         on:click={() => open("resources")}>
         <Layers3 size={36} strokeWidth={1.2} />
@@ -48,7 +48,7 @@
         }}>
         <Workflow size={36} strokeWidth={1.2} />
         editor
-      </button>
+      </button> -->
     </div>
 
     <MaterialsList bind:open={openMenu.materials} />
