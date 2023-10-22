@@ -7,11 +7,11 @@
 
   let iTime = 0;
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     iTime = Date.now();
     if ($currentMaterial && $currentMaterial.uniforms.iTime) {
       // console.log("update");
-      $currentMaterial.uniforms.iTime.value = Math.sin(iTime);
+      $currentMaterial.uniforms.iTime.value = clock.getElapsedTime();
     }
   });
 </script>

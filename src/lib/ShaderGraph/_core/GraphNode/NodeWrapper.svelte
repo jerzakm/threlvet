@@ -17,6 +17,7 @@
     saveProcessingData,
   } from "./nodeSaving";
   import { X } from "lucide-svelte";
+  import { debounce } from "$lib/util";
 
   export let title: string;
   export let nodeTypeId: NodeTypeId | "material";
@@ -47,14 +48,9 @@
 
   //    - save node position to store
   let currentPosition: any;
-  $: {
-    if (
-      currentPosition &&
-      !isMaterial &&
-      $activeMaterialDefinition !== undefined &&
-      $materialDefinition &&
-      $materialDefinition[$activeMaterialDefinition].nodes[id]
-    ) {
+
+  const updatePosition = debounce(() => {
+    if ($activeMaterialDefinition !== undefined && $materialDefinition) {
       if (
         // todo better compare ?
         JSON.stringify(
@@ -66,17 +62,32 @@
         materialDefinition.set($materialDefinition);
       }
     }
-  }
+  }, 100);
 
-  // re-initializing graph structure on crucial changes (output drops)
-  const { shaderGraphNeedsRefresh } = uiStores;
+  $: {
+    if (
+      currentPosition &&
+      !isMaterial &&
+      $activeMaterialDefinition !== undefined &&
+      $materialDefinition &&
+      $materialDefinition[$activeMaterialDefinition].nodes[id]
+    ) {
+      updatePosition();
+    }
+  }
 
   // PROCESSING DATA
   export let processingData: any | undefined = undefined;
 
-  $: {
+  const debounceSaveProcessingData = debounce(() => {
     if (!isNewNode && processingData !== undefined) {
       saveProcessingData(id, processingData);
+    }
+  }, 100);
+
+  $: {
+    if (!isNewNode && processingData !== undefined) {
+      debounceSaveProcessingData();
     }
   }
 </script>
